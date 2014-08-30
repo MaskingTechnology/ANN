@@ -1,7 +1,9 @@
 package nl.uitdehoogte.ann;
 
+import java.io.Serializable;
 
-public class Layer 
+
+public class Layer implements Serializable
 {
 	private Perceptron[] perceptrons;
 	

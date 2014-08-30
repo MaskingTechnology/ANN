@@ -1,7 +1,9 @@
 package nl.uitdehoogte.ann;
 
+import java.io.Serializable;
 
-public class Network 
+
+public class Network implements Serializable
 {
 	private Layer[] layers;
 	

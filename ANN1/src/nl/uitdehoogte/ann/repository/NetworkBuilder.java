@@ -1,7 +1,11 @@
-package nl.uitdehoogte.ann;
+package nl.uitdehoogte.ann.repository;
 
 import java.util.Random;
 
+import nl.uitdehoogte.ann.Layer;
+import nl.uitdehoogte.ann.Network;
+import nl.uitdehoogte.ann.Perceptron;
+import nl.uitdehoogte.ann.PerceptronException;
 import nl.uitdehoogte.ann.activation.ActivationFunction;
 
 public class NetworkBuilder 

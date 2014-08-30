@@ -1,6 +1,8 @@
 package nl.uitdehoogte.ann.activation;
 
-public interface ActivationFunction 
+import java.io.Serializable;
+
+public interface ActivationFunction extends Serializable
 {
 	public double execute(double input);
 }

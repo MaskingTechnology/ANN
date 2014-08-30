@@ -1,7 +1,8 @@
 package nl.uitdehoogte.ann;
 
-@SuppressWarnings("serial")
-public class PerceptronException extends Exception 
+import java.io.Serializable;
+
+public class PerceptronException extends Exception implements Serializable
 {
 	public PerceptronException(String message) 
 	{

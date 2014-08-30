@@ -1,8 +1,9 @@
 package nl.uitdehoogte.ann;
 
+import java.io.Serializable;
 import nl.uitdehoogte.ann.activation.ActivationFunction;
 
-public class Perceptron 
+public class Perceptron implements Serializable
 {
 	private ActivationFunction activationFunction;
 	private int inputCount;

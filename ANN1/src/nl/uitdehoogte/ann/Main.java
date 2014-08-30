@@ -6,13 +6,41 @@ import java.util.Random;
 import nl.uitdehoogte.ann.activation.*;
 import nl.uitdehoogte.ann.data.IdxReader;
 import nl.uitdehoogte.ann.data.Sample;
+import nl.uitdehoogte.ann.repository.NetworkBuilder;
+import nl.uitdehoogte.ann.repository.NetworkReader;
+import nl.uitdehoogte.ann.repository.NetworkWriter;
 import nl.uitdehoogte.ann.trainer.NetworkTrainer;
 import nl.uitdehoogte.ann.trainer.calculator.error.SigmoidErrorCalculator;
 
 public class Main 
 {
 
-	public static void main(String[] args) 
+	public static void main(String[] args)  
+	{	
+		createAndTrainNetwork();
+		//readAndExecuteNetwork();
+	}
+	
+	private static void readAndExecuteNetwork()
+	{
+		try
+		{
+			Network network = NetworkReader.read("data/test1.dat");
+			
+			Sample[] samples = readIdxFiles("data/train-labels.idx1-ubyte",
+                                            "data/train-images.idx3-ubyte");
+			
+			double[] input = samples[0].getDoubleData();
+			double[] output = network.getOutput(input);
+			printOutput(output);
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+
+	private static void createAndTrainNetwork()
 	{
 		int[] perceptrons = new int[] {784, 96, 10};
 		//int[] perceptrons = new int[] {3, 4, 3};
@@ -38,7 +66,7 @@ public class Main
 			
 			long start = System.currentTimeMillis();
 			
-			for(int i=0; i<1; i++)
+			for(int i=0; i<100; i++)
 			{
 				networkTrainer.train(samples[i]);
 			}
@@ -49,8 +77,10 @@ public class Main
 			printOutput(output);
 			
 			System.out.println(end - start);
+			
+			NetworkWriter.write(network, "data/test1.dat");
 		}
-		catch(PerceptronException pe)
+		catch(Exception pe)
 		{
 			pe.printStackTrace();
 		}
