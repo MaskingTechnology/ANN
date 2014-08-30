@@ -25,8 +25,8 @@ public class Main
 			//printNetwork(network);
 			
 			//double[] input = generateRandomInput(perceptrons[0]);
-			Sample[] samples = readIdxFiles("C:/Users/Bas Meeuwissen/Documents/Prog/handwritten dataset/train-labels.idx1-ubyte",
-					                        "C:/Users/Bas Meeuwissen/Documents/Prog/handwritten dataset/train-images.idx3-ubyte"); 
+			Sample[] samples = readIdxFiles("data/train-labels.idx1-ubyte",
+					                        "data/train-images.idx3-ubyte"); 
 			
 			double[] input = samples[0].getDoubleData();
 			double[] output = network.getOutput(input);
@@ -37,10 +37,12 @@ public class Main
 			NetworkTrainer networkTrainer = new NetworkTrainer(network, new SigmoidErrorCalculator());
 			
 			long start = System.currentTimeMillis();
-			for(int i=0; i<100; i++)
+			
+			for(int i=0; i<1; i++)
 			{
 				networkTrainer.train(samples[i]);
 			}
+			
 			long end = System.currentTimeMillis();
 			
 			output = network.getOutput(input);
