@@ -20,9 +20,19 @@ public class Sample
 		return this.number;
 	}
 	
+	public void setNumber(byte number)
+	{
+		this.number = number;
+	}
+	
 	public byte[] getData() 
 	{
 		return this.data;
+	}
+	
+	public void setData(byte[] data)
+	{
+		this.data = data;
 	}
 	
 	public double[] getDoubleData()
@@ -40,5 +50,10 @@ public class Sample
 	public Dimension getDimension() 
 	{
 		return this.dimension;
+	}
+	
+	public void setDimension(Dimension dimension)
+	{
+		this.dimension = dimension;
 	}
 }
