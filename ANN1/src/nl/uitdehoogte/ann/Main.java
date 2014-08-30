@@ -17,8 +17,8 @@ public class Main
 
 	public static void main(String[] args)  
 	{	
-		createAndTrainNetwork();
-		//readAndExecuteNetwork();
+		//createAndTrainNetwork();
+		readAndExecuteNetwork();
 	}
 	
 	private static void readAndExecuteNetwork()
@@ -30,8 +30,9 @@ public class Main
 			Sample[] samples = readIdxFiles("data/train-labels.idx1-ubyte",
                                             "data/train-images.idx3-ubyte");
 			
-			double[] input = samples[0].getDoubleData();
+			double[] input = samples[5].getDoubleData();
 			double[] output = network.getOutput(input);
+			System.out.println(samples[5].getNumber());
 			printOutput(output);
 		}
 		catch(Exception e)
@@ -66,7 +67,7 @@ public class Main
 			
 			long start = System.currentTimeMillis();
 			
-			for(int i=0; i<100; i++)
+			for(int i=0; i<10000; i++)
 			{
 				networkTrainer.train(samples[i]);
 			}
