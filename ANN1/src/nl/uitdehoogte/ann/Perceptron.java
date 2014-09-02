@@ -1,10 +1,15 @@
 package nl.uitdehoogte.ann;
 
 import java.io.Serializable;
+
+import org.apache.log4j.Logger;
+
 import nl.uitdehoogte.ann.activation.ActivationFunction;
 
 public class Perceptron implements Serializable
 {
+	private static Logger logger = Logger.getLogger(Perceptron.class);
+	
 	private ActivationFunction activationFunction;
 	private int inputCount;
 	private double[] weights;
