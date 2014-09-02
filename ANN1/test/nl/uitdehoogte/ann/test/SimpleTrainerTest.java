@@ -1,5 +1,7 @@
 package nl.uitdehoogte.ann.test;
 
+import java.awt.Dimension;
+
 import junit.framework.TestCase;
 import nl.uitdehoogte.ann.Layer;
 import nl.uitdehoogte.ann.Network;
@@ -7,11 +9,12 @@ import nl.uitdehoogte.ann.Perceptron;
 import nl.uitdehoogte.ann.PerceptronException;
 import nl.uitdehoogte.ann.activation.ActivationFunction;
 import nl.uitdehoogte.ann.activation.SigmoidActivationFunction;
+import nl.uitdehoogte.ann.data.Sample;
 import nl.uitdehoogte.ann.repository.NetworkBuilder;
 
 import org.junit.Test;
 
-public class SimpleNetworkTest extends TestCase
+public class SimpleTrainerTest extends TestCase
 {
 	@Override
 	public void setUp()
@@ -26,7 +29,7 @@ public class SimpleNetworkTest extends TestCase
 	}
 	
 	@Test
-	public void testGetOutput() throws PerceptronException
+	public void testTrainer() throws PerceptronException
 	{
 		//input layer, hidden layer, output layer
 		int[] iPerceptrons = new int[] {2, 2, 1};
@@ -52,6 +55,8 @@ public class SimpleNetworkTest extends TestCase
 		perceptrons[0].setWeights(new double[] {0.0, 0.3, 0.9});
 		
 		double[] output = network.getOutput(input);
+		
+		
 		
 		assertEquals(0.685, output[0], 0.001);
 	}

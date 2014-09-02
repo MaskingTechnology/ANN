@@ -8,8 +8,9 @@ import nl.uitdehoogte.ann.activation.ActivationFunction;
 
 public class Perceptron implements Serializable
 {
-	private static Logger logger = Logger.getLogger(Perceptron.class);
-	
+	//private static Logger logger = Logger.getLogger(Perceptron.class);
+
+	private static final long serialVersionUID = 5931709128178149730L;
 	private ActivationFunction activationFunction;
 	private int inputCount;
 	private double[] weights;
@@ -23,6 +24,13 @@ public class Perceptron implements Serializable
 		this.inputCount = inputCount;
 	}
 	
+	public Perceptron(ActivationFunction activationFunction, int inputCount, double[] weights) throws PerceptronException
+	{
+		this(activationFunction, inputCount);
+		setWeights(weights);
+		
+	}
+	
 	public double getOutput(double[] input) throws PerceptronException 
 	{
 		// First weight is bias for this perceptron, input not provided by Network Layer
@@ -33,7 +41,11 @@ public class Perceptron implements Serializable
 		
 		double transferInput = sum(input);
 		
+		//logger.debug("transferInput:\t" + transferInput);
+		
 		lastOutput = this.activationFunction.execute(transferInput);
+		
+		//logger.debug("lastOutput:\t" + lastOutput);
 		
 		return lastOutput;
 	}

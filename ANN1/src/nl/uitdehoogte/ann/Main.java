@@ -10,6 +10,7 @@ import nl.uitdehoogte.ann.repository.NetworkBuilder;
 import nl.uitdehoogte.ann.repository.NetworkReader;
 import nl.uitdehoogte.ann.repository.NetworkWriter;
 import nl.uitdehoogte.ann.trainer.NetworkTrainer;
+import nl.uitdehoogte.ann.trainer.NumberNetworkTrainer;
 import nl.uitdehoogte.ann.trainer.calculator.error.SigmoidErrorCalculator;
 
 public class Main 
@@ -63,11 +64,11 @@ public class Main
 			System.out.println();
 			
 			
-			NetworkTrainer networkTrainer = new NetworkTrainer(network, new SigmoidErrorCalculator());
+			NetworkTrainer networkTrainer = new NumberNetworkTrainer(network, new SigmoidErrorCalculator());
 			
 			long start = System.currentTimeMillis();
 			
-			for(int i=0; i<10000; i++)
+			for(int i=0; i<10; i++)
 			{
 				networkTrainer.train(samples[i]);
 			}

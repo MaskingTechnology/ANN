@@ -5,6 +5,7 @@ import java.io.Serializable;
 
 public class Network implements Serializable
 {
+	private static final long serialVersionUID = 2673317010935875034L;
 	private Layer[] layers;
 	
 	public Network(Layer[] layers)

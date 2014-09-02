@@ -5,6 +5,7 @@ import java.io.Serializable;
 
 public class Layer implements Serializable
 {
+	private static final long serialVersionUID = 8508449559696724813L;
 	private Perceptron[] perceptrons;
 	
 	public Layer(Perceptron[] perceptrons) 

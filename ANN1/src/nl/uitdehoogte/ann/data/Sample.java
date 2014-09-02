@@ -37,8 +37,8 @@ public class Sample
 	
 	public double[] getDoubleData()
 	{
-		double[] result = new double[this.data.length]
-				;
+		double[] result = new double[this.data.length];
+		
 		for (int i = 0; i < result.length; i++)
 		{
 			result[i] = (double) data[i];

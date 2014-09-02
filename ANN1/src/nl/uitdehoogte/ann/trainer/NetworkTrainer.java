@@ -7,7 +7,7 @@ import nl.uitdehoogte.ann.PerceptronException;
 import nl.uitdehoogte.ann.data.Sample;
 import nl.uitdehoogte.ann.trainer.calculator.error.ErrorCalculator;
 
-public class NetworkTrainer
+public abstract class NetworkTrainer
 {
 	private Network network;
 	private ErrorCalculator errorCalculator;
@@ -29,9 +29,11 @@ public class NetworkTrainer
 	public void train(Sample sample) throws PerceptronException
 	{
 		runSample(sample);
-		double[] expectedOutput = createExpectedValues(sample);
 		
-		Layer[] layers = network.getLayers();
+		Layer[] layers = network.getLayers();	
+		
+		double[] expectedOutput = createExpectedValues(sample, layers[layers.length-1]);
+		
 		Layer outputLayer = layers[2];
 		Layer hiddenLayer = layers[1];
 		Layer inputLayer = layers[0];
@@ -51,14 +53,7 @@ public class NetworkTrainer
 		network.getOutput(input);
 	}
 	
-	private double[] createExpectedValues(Sample sample)
-	{
-		double[] values = new double[10];
-		
-		values[(int) sample.getNumber()] = 1;
-		
-		return values;
-	}
+	protected abstract double[] createExpectedValues(Sample sample, Layer layer);
 	
 	private void setExpectedOutput(Layer outputLayer, double[] expectedOutput)
 	{
