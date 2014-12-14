@@ -7,7 +7,8 @@ import nl.uitdehoogte.ann.trainer.calculator.error.ErrorCalculator;
 
 public class NumberNetworkTrainer extends NetworkTrainer
 {
-	public NumberNetworkTrainer(Network network, ErrorCalculator errorCalculator) {
+	public NumberNetworkTrainer(Network network, ErrorCalculator errorCalculator)
+	{
 		super(network, errorCalculator);
 	}
 

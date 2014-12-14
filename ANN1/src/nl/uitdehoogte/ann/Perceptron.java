@@ -28,7 +28,6 @@ public class Perceptron implements Serializable
 	{
 		this(activationFunction, inputCount);
 		setWeights(weights);
-		
 	}
 	
 	public double getOutput(double[] input) throws PerceptronException 
@@ -41,11 +40,12 @@ public class Perceptron implements Serializable
 		
 		double transferInput = sum(input);
 		
-		//logger.debug("transferInput:\t" + transferInput);
+		//System.out.println("transferInput:\t" + transferInput);
 		
 		lastOutput = this.activationFunction.execute(transferInput);
 		
-		//logger.debug("lastOutput:\t" + lastOutput);
+		//System.out.println("lastOutput:\t" + lastOutput);
+		//System.out.println();
 		
 		return lastOutput;
 	}

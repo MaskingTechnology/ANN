@@ -37,7 +37,7 @@ public class SimpleTrainerTest extends TestCase
 		
 		Network network = NetworkBuilder.build(iPerceptrons, activationFunction);
 		
-		double[] input = new double[] {0.35, 0.6};
+		double[] input = new double[] {0.35, 0.9};
 		
 		Layer[] layers = network.getLayers();
 		

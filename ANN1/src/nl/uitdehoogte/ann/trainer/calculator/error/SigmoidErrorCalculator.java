@@ -1,6 +1,5 @@
 package nl.uitdehoogte.ann.trainer.calculator.error;
 
-
 public class SigmoidErrorCalculator implements ErrorCalculator
 {
 	public double calculateOutputError(double actualOutput, double expectedOutput)

@@ -34,7 +34,7 @@ public class SimpleNetworkTest extends TestCase
 		
 		Network network = NetworkBuilder.build(iPerceptrons, activationFunction);
 		
-		double[] input = new double[] {0.35, 0.6};
+		double[] input = new double[] {0.35, 0.9};
 		
 		Layer[] layers = network.getLayers();
 		
@@ -53,6 +53,6 @@ public class SimpleNetworkTest extends TestCase
 		
 		double[] output = network.getOutput(input);
 		
-		assertEquals(0.685, output[0], 0.001);
+		assertEquals(0.687, output[0], 0.001);
 	}
 }

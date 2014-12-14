@@ -7,7 +7,8 @@ import nl.uitdehoogte.ann.trainer.calculator.error.ErrorCalculator;
 
 public class SampleSigmoidNetworkTrainer extends NetworkTrainer
 {
-	public SampleSigmoidNetworkTrainer(Network network, ErrorCalculator errorCalculator) {
+	public SampleSigmoidNetworkTrainer(Network network, ErrorCalculator errorCalculator)
+	{
 		super(network, errorCalculator);
 	}
 	

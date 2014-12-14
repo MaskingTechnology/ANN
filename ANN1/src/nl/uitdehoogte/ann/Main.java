@@ -18,8 +18,8 @@ public class Main
 
 	public static void main(String[] args)  
 	{	
-		//createAndTrainNetwork();
-		readAndExecuteNetwork();
+		createAndTrainNetwork();
+		//readAndExecuteNetwork();
 	}
 	
 	private static void readAndExecuteNetwork()
@@ -68,7 +68,7 @@ public class Main
 			
 			long start = System.currentTimeMillis();
 			
-			for(int i=0; i<10; i++)
+			for(int i=0; i<60000; i++)
 			{
 				networkTrainer.train(samples[i]);
 			}

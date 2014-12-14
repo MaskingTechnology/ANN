@@ -7,6 +7,7 @@ import nl.uitdehoogte.ann.Network;
 import nl.uitdehoogte.ann.Perceptron;
 import nl.uitdehoogte.ann.PerceptronException;
 import nl.uitdehoogte.ann.activation.ActivationFunction;
+import nl.uitdehoogte.ann.activation.LinearActivationFunction;
 
 public class NetworkBuilder 
 {
@@ -14,7 +15,7 @@ public class NetworkBuilder
 	{
 		Layer[] layers = new Layer[perceptrons.length];
 		
-		layers[0] = buildInputLayer(perceptrons[0], activationFunction);
+		layers[0] = buildInputLayer(perceptrons[0], new LinearActivationFunction());
 		
 		int i;
 		
@@ -60,6 +61,7 @@ public class NetworkBuilder
 		{
 			weights[i] = random.nextGaussian();
 		}
+		
 		return weights;
 	}
 	

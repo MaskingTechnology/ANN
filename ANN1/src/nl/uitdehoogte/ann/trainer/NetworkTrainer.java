@@ -31,22 +31,24 @@ public abstract class NetworkTrainer
 		runSample(sample);
 		
 		Layer[] layers = network.getLayers();	
-		
-		double[] expectedOutput = createExpectedValues(sample, layers[layers.length-1]);
-		
-		Layer outputLayer = layers[2];
-		Layer hiddenLayer = layers[1];
+		Layer outputLayer = layers[layers.length - 1];
 		Layer inputLayer = layers[0];
+		Layer[] hiddenLayers = new Layer[layers.length - 2];
+		
+		System.arraycopy(layers, 1, hiddenLayers, 0, hiddenLayers.length);
+		
+		double[] expectedOutput = createExpectedValues(sample, outputLayer);
 		
 		setExpectedOutput(outputLayer, expectedOutput);
 		setLastOutputErrors(outputLayer);
-		setWeights(outputLayer, hiddenLayer);
 		
-		setHiddenLayerErrors(hiddenLayer, outputLayer);
-		setWeights(hiddenLayer, inputLayer);
+		setWeights(outputLayer, hiddenLayers[0]);
+		setHiddenLayerErrors(hiddenLayers[0], outputLayer);
+		
+		setWeights(hiddenLayers[0], inputLayer);
 	}
 	
-	private void runSample(Sample sample) throws PerceptronException
+	public void runSample(Sample sample) throws PerceptronException
 	{
 		double[] input = sample.getDoubleData();
 		
@@ -55,7 +57,7 @@ public abstract class NetworkTrainer
 	
 	protected abstract double[] createExpectedValues(Sample sample, Layer layer);
 	
-	private void setExpectedOutput(Layer outputLayer, double[] expectedOutput)
+	public void setExpectedOutput(Layer outputLayer, double[] expectedOutput)
 	{
 		Perceptron[] perceptrons = outputLayer.getPerceptrons();
 		
@@ -65,9 +67,9 @@ public abstract class NetworkTrainer
 		}
 	}
 	
-	private void setLastOutputErrors(Layer layer)
+	public void setLastOutputErrors(Layer outputLayer)
 	{
-		Perceptron[] perceptrons = layer.getPerceptrons();
+		Perceptron[] perceptrons = outputLayer.getPerceptrons();
 		
 		for (int i = 0; i < perceptrons.length; i++)
 		{
@@ -80,7 +82,7 @@ public abstract class NetworkTrainer
 		return errorCalculator.calculateOutputError(actualOutput, expectedOutput);
 	}
 	
-	private void setWeights(Layer targetLayer, Layer sourceLayer) throws PerceptronException
+	public void setWeights(Layer targetLayer, Layer sourceLayer) throws PerceptronException
 	{
 		Perceptron[] targetPerceptrons = targetLayer.getPerceptrons();
 		Perceptron[] sourcePerceptrons = sourceLayer.getPerceptrons();
@@ -107,15 +109,16 @@ public abstract class NetworkTrainer
 		return weight + (error * output);
 	}
 	
-	private void setHiddenLayerErrors(Layer currentLayer, Layer previousLayer)
+	public void setHiddenLayerErrors(Layer currentLayer, Layer previousLayer)
 	{
+		//current = hidden, previous = output
 		Perceptron[] previousPerceptrons = previousLayer.getPerceptrons();
 		Perceptron[] currentPerceptrons = currentLayer.getPerceptrons();
 		
-		for (int i = 0; i < currentPerceptrons.length; i++)
-		{
-			currentPerceptrons[i].setLastError(0.0);
-		}
+		//for (int i = 0; i < currentPerceptrons.length; i++)
+		//{
+		//	currentPerceptrons[i].setLastError(0.0);
+		//}
 		
 		for (int i = 0; i < previousPerceptrons.length; i++)
 		{
@@ -123,7 +126,7 @@ public abstract class NetworkTrainer
 			
 			for (int j = 0; j < weights.length - 1; j++)
 			{
-				currentPerceptrons[j].setLastError(currentPerceptrons[j].getLastError() + calculateHiddenError(currentPerceptrons[j].getLastOutput(), weights[j + 1], previousPerceptrons[i].getLastError()));
+				currentPerceptrons[j].setLastError(calculateHiddenError(currentPerceptrons[j].getLastOutput(), weights[j + 1], previousPerceptrons[i].getLastError()));
 			}
 		}
 	}
