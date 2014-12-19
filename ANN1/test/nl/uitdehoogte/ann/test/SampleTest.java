@@ -30,8 +30,10 @@ public class SampleTest extends TestCase
 	{
 		byte[] bytes = samples[0].getData();
 		double[] doubleData = samples[0].getDoubleData();
-		int width = samples[0].getDimension().width;
-		
+		int width = samples[0].getDimension().width,
+		    height = samples[0].getDimension().height;
+		    
+		System.out.println("Width: " + width + " height: " + height);
 		System.out.println(samples[0].getNumber());
 		
 		for(int i = 0; i < bytes.length; i++)

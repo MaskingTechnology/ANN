@@ -1,7 +1,7 @@
 package nl.uitdehoogte.ann.trainer.calculator.error;
 
 
-public class LinearErrorCalculator implements ErrorCalculator
+public class BinairyErrorCalculator implements ErrorCalculator
 {	
 	public double calculateOutputError(double actualOutput, double expectedOutput)
 	{

@@ -11,15 +11,19 @@ import nl.uitdehoogte.ann.repository.NetworkReader;
 import nl.uitdehoogte.ann.repository.NetworkWriter;
 import nl.uitdehoogte.ann.trainer.NetworkTrainer;
 import nl.uitdehoogte.ann.trainer.NumberNetworkTrainer;
+import nl.uitdehoogte.ann.trainer.calculator.error.BinairyErrorCalculator;
 import nl.uitdehoogte.ann.trainer.calculator.error.SigmoidErrorCalculator;
 
 public class Main 
 {
-
+	//Momentum ??
+	//http://en.wikibooks.org/wiki/Artificial_Neural_Networks/Neural_Network_Basics
+	//http://neuralnetworksanddeeplearning.com/chap1.html
+	
 	public static void main(String[] args)  
 	{	
-		//createAndTrainNetwork("data/test2.dat");
-		readAndExecuteNetwork("data/test2.dat");
+		createAndTrainNetwork("data/test6.dat");
+		readAndExecuteNetwork("data/test6.dat");
 	}
 	
 	private static void readAndExecuteNetwork(String inputFileName)
@@ -85,16 +89,12 @@ public class Main
 	private static void createAndTrainNetwork(String outputFileName)
 	{
 		int[] perceptrons = new int[] {784, 96, 10};
-		//int[] perceptrons = new int[] {3, 4, 3};
 		ActivationFunction activationFunction = new SigmoidActivationFunction();
-			
+		
 		try
 		{
 			Network network = NetworkBuilder.build(perceptrons, activationFunction);
 
-			//printNetwork(network);
-			
-			//double[] input = generateRandomInput(perceptrons[0]);
 			Sample[] samples = readIdxFiles("data/train-labels.idx1-ubyte",
 					                        "data/train-images.idx3-ubyte"); 
 			
@@ -104,11 +104,6 @@ public class Main
 			NetworkTrainer networkTrainer = new NumberNetworkTrainer(network, new SigmoidErrorCalculator());
 			
 			long start = System.currentTimeMillis();
-			
-			for(int i = 0; i < samples.length; i++)
-			{
-				networkTrainer.train(samples[i]);
-			}
 			
 			for(int i = 0; i < samples.length; i++)
 			{

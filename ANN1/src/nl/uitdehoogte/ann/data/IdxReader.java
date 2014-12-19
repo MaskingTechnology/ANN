@@ -98,6 +98,16 @@ public class IdxReader
 			throw new InvalidIdxFileException("Incomplete sample list");
 		}
 		
+		/*
+		for(int i = 0; i < data.length; i++)
+		{
+			if(data[i] != (byte)0)
+			{
+				data[i] = (byte)255;
+			}
+		}
+		*/
+		
 		return new Sample(number, data, dimension);
 	}
 }
