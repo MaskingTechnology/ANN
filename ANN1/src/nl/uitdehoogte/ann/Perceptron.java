@@ -40,12 +40,7 @@ public class Perceptron implements Serializable
 		
 		double transferInput = sum(input);
 		
-		//System.out.println("transferInput:\t" + transferInput);
-		
 		lastOutput = this.activationFunction.execute(transferInput);
-		
-		//System.out.println("lastOutput:\t" + lastOutput);
-		//System.out.println();
 		
 		return lastOutput;
 	}

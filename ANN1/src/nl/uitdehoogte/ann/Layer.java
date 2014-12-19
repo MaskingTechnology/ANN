@@ -24,6 +24,11 @@ public class Layer implements Serializable
 
 		return output;
 	}
+
+	public double getOutput(double[] input, int index) throws PerceptronException
+	{
+		return perceptrons[index].getOutput(input);
+	}
 	
 	public Perceptron[] getPerceptrons()
 	{

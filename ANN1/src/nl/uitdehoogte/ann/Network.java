@@ -16,10 +16,10 @@ public class Network implements Serializable
 	private double[] getInputLayerOutput(double[] input) throws PerceptronException
 	{
 		double[] output = new double[input.length];
-		
+
 		for (int i = 0; i < output.length; i++)
 		{
-			output[i] = layers[0].getOutput(new double[] {input[i]})[0];
+			output[i] = layers[0].getOutput(new double[] {input[i]}, i);
 		}
 		
 		return output; 
