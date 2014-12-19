@@ -38,10 +38,12 @@ public class Sample
 	public double[] getDoubleData()
 	{
 		double[] result = new double[this.data.length];
+		int temp;
 		
 		for (int i = 0; i < result.length; i++)
 		{
-			result[i] = (double) data[i];
+			temp = (int)data[i] & 0x000000FF;
+			result[i] = (double)temp;
 		}
 		
 		return result;

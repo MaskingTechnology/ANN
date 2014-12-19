@@ -18,23 +18,45 @@ public class Main
 
 	public static void main(String[] args)  
 	{	
-		createAndTrainNetwork();
-		//readAndExecuteNetwork();
+		//createAndTrainNetwork("data/test2.dat");
+		readAndExecuteNetwork("data/test2.dat");
 	}
 	
-	private static void readAndExecuteNetwork()
+	private static void readAndExecuteNetwork(String inputFileName)
 	{
 		try
 		{
-			Network network = NetworkReader.read("data/test1.dat");
+			Network network = NetworkReader.read(inputFileName);
 			
-			Sample[] samples = readIdxFiles("data/train-labels.idx1-ubyte",
-                                            "data/train-images.idx3-ubyte");
+			Sample[] samples = readIdxFiles("data/t10k-labels.idx1-ubyte",
+                                            "data/t10k-images.idx3-ubyte");
 			
-			double[] input = samples[5].getDoubleData();
-			double[] output = network.getOutput(input);
-			System.out.println(samples[5].getNumber());
-			printOutput(output);
+			double[] input,
+			         output;
+			int correct = 0,
+			    incorrect = 0;
+			
+			for(int i = 0; i < samples.length; i++)
+			{
+				input = samples[i].getDoubleData();
+				output = network.getOutput(input);
+				
+				if(checkOutput(samples[i].getNumber(), output))
+				{
+					correct++;
+				}
+				else
+				{
+					incorrect++;
+				}
+				
+				//printOutput(output);
+			}
+			
+			System.out.println();
+			System.out.println("Samples  : " + samples.length);
+			System.out.println("Correct  : " + correct);
+			System.out.println("Incorrect: " + incorrect);
 		}
 		catch(Exception e)
 		{
@@ -42,7 +64,25 @@ public class Main
 		}
 	}
 
-	private static void createAndTrainNetwork()
+	private static boolean checkOutput(byte number, double[] output)
+	{
+		double max = 0;
+		int index = 0;
+		
+		for(int i = 0; i < output.length; i++)
+		{
+			if(output[i] > max)
+			{
+				max = output[i];
+				index = i;
+			}
+		}
+		//System.out.println("max: " + max + " index: " + index + " number: " + number);
+		
+		return index == ((int)number & 0x000000FF);
+	}
+	
+	private static void createAndTrainNetwork(String outputFileName)
 	{
 		int[] perceptrons = new int[] {784, 96, 10};
 		//int[] perceptrons = new int[] {3, 4, 3};
@@ -60,15 +100,17 @@ public class Main
 			
 			double[] input = samples[0].getDoubleData();
 			double[] output = network.getOutput(input);
-			printOutput(output);
-			System.out.println();
-			
 			
 			NetworkTrainer networkTrainer = new NumberNetworkTrainer(network, new SigmoidErrorCalculator());
 			
 			long start = System.currentTimeMillis();
 			
-			for(int i=0; i<60000; i++)
+			for(int i = 0; i < samples.length; i++)
+			{
+				networkTrainer.train(samples[i]);
+			}
+			
+			for(int i = 0; i < samples.length; i++)
 			{
 				networkTrainer.train(samples[i]);
 			}
@@ -76,11 +118,10 @@ public class Main
 			long end = System.currentTimeMillis();
 			
 			output = network.getOutput(input);
-			printOutput(output);
 			
 			System.out.println(end - start);
 			
-			NetworkWriter.write(network, "data/test1.dat");
+			NetworkWriter.write(network, outputFileName);
 		}
 		catch(Exception pe)
 		{

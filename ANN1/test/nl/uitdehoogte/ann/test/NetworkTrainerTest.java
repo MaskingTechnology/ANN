@@ -199,6 +199,7 @@ public class NetworkTrainerTest extends TestCase
 		 * Weights[1] = 0.4 + (Error B * Output X) =>  0,397225732
 		 * Weights[2] = 0.6 + (Error B * Output Z) =>  0,592866167
 		 */
+		
 		double[] weights = hiddenLayer.getPerceptrons()[0].getWeights();
 		assertEquals(-0.002409621, weights[0], 0.00001);
 		assertEquals(0.099156633, weights[1], 0.00001);
@@ -208,5 +209,53 @@ public class NetworkTrainerTest extends TestCase
 		assertEquals(-0.007926481, weights[0], 0.00001);
 		assertEquals(0.397225732, weights[1], 0.00001);
 		assertEquals(0.592866167, weights[2], 0.00001);
+	}
+	
+	@Test
+	public void testUpdatedForwardPass() throws PerceptronException
+	{
+		double[] input = new double[] {0.35, 0.9};
+		double[] output = network.getOutput(input);
+		
+		Layer[] layers = network.getLayers();
+		Layer outputLayer = layers[2];
+		Layer hiddenLayer = layers[1];
+		Layer inputLayer  = layers[0];
+		
+		networkTrainer.setExpectedOutput(outputLayer, new double[]{0.5});
+		networkTrainer.setLastOutputErrors(outputLayer);
+		networkTrainer.setWeights(outputLayer, hiddenLayer);
+		networkTrainer.setHiddenLayerErrors(hiddenLayer, outputLayer);
+		networkTrainer.setWeights(hiddenLayer, inputLayer);
+		
+		/*
+		 * Input A = 0.35 * 0.1 + 0.9 * 0.8 = 0.755  => Output A = 0.6802671967
+		 * Input B = 0.9 * 0.6 + 0.35 * 0.4 = 0.68   => Output B = 0.6637386974
+		 * Input C = 0.3 * Output A + 0.9 * Output B => Output C = 0.6902834929
+		 * 
+		 * Error C = (0.5 - Output C)(1 - Output C)Output C => -0.04068112511
+		 * 
+		 * Weights[0] = 0   + Error C              => -0.04068112511
+		 * Weights[1] = 0.3 + (Error C * Output A) => 0.2723259651
+		 * Weights[2] = 0.9 + (Error C * Output B) => 0.872998363
+		 * 
+		 * Error A = Error C * weights[1] * (1 - Output A) * Output A => -0,002409621
+		 * Error B = Error C * weights[2] * (1 - Output B) * Output B => -0,007926481
+		 * 
+		 * Perceptron 1
+		 * Weights[0] = 0   + Error A              => -0,002409621
+		 * Weights[1] = 0.1 + (Error A * Output X) =>  0,099156633
+		 * Weights[2] = 0.8 + (Error A * Output Z) =>  0,797831341
+		 * 
+		 * Perceptron 2
+		 * Weights[0] = 0   + Error B              => -0,007926481
+		 * Weights[1] = 0.4 + (Error B * Output X) =>  0,397225732
+		 * Weights[2] = 0.6 + (Error B * Output Z) =>  0,592866167
+		 */
+		
+		System.out.println(output[0]);
+		output = network.getOutput(input);
+		
+		System.out.println(output[0]);
 	}
 }
