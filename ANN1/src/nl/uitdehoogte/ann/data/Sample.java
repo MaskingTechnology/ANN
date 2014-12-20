@@ -49,6 +49,20 @@ public class Sample
 		return result;
 	}
 	
+	public double[] getNormalizedDoubleData()
+	{
+		double[] result = new double[this.data.length];
+		int temp;
+		
+		for (int i = 0; i < result.length; i++)
+		{
+			temp = (int)data[i] & 0x000000FF;
+			result[i] = (double)temp / 0xFF;
+		}
+		
+		return result;	
+	}
+	
 	public Dimension getDimension() 
 	{
 		return this.dimension;
