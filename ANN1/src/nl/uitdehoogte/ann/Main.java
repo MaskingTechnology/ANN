@@ -13,6 +13,7 @@ import nl.uitdehoogte.ann.trainer.NetworkTrainer;
 import nl.uitdehoogte.ann.trainer.NumberNetworkTrainer;
 import nl.uitdehoogte.ann.trainer.calculator.error.BinairyErrorCalculator;
 import nl.uitdehoogte.ann.trainer.calculator.error.SigmoidErrorCalculator;
+import nl.uitdehoogte.ann.trainer.calculator.error.TangentErrorCalculator;
 
 public class Main 
 {
@@ -22,8 +23,8 @@ public class Main
 	
 	public static void main(String[] args)  
 	{	
-		createAndTrainNetwork("data/test6.dat");
-		readAndExecuteNetwork("data/test6.dat");
+		createAndTrainNetwork("data/test8.dat");
+		readAndExecuteNetwork("data/test8.dat");
 	}
 	
 	private static void readAndExecuteNetwork(String inputFileName)
@@ -42,7 +43,7 @@ public class Main
 			
 			for(int i = 0; i < samples.length; i++)
 			{
-				input = samples[i].getDoubleData();
+				input = samples[i].getNormalizedDoubleData();
 				output = network.getOutput(input);
 				
 				if(checkOutput(samples[i].getNumber(), output))
@@ -98,7 +99,7 @@ public class Main
 			Sample[] samples = readIdxFiles("data/train-labels.idx1-ubyte",
 					                        "data/train-images.idx3-ubyte"); 
 			
-			double[] input = samples[0].getDoubleData();
+			double[] input = samples[0].getNormalizedDoubleData();
 			double[] output = network.getOutput(input);
 			
 			NetworkTrainer networkTrainer = new NumberNetworkTrainer(network, new SigmoidErrorCalculator());

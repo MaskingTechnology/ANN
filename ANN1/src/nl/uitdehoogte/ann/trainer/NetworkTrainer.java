@@ -50,7 +50,7 @@ public abstract class NetworkTrainer
 	
 	public void runSample(Sample sample) throws PerceptronException
 	{
-		double[] input = sample.getDoubleData();
+		double[] input = sample.getNormalizedDoubleData();
 		
 		network.getOutput(input);
 	}
