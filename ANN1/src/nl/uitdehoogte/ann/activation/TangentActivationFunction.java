@@ -6,7 +6,7 @@ public class TangentActivationFunction implements ActivationFunction {
 
 	public double execute(double input) 
 	{
-		return Math.tanh(input);
+		return 1.7159 * Math.tanh(2.0 / 3 * input);
 	}
 
 }
