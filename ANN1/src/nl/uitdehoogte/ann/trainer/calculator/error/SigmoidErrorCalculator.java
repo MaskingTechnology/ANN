@@ -9,6 +9,6 @@ public class SigmoidErrorCalculator implements ErrorCalculator
 	
 	public double calculateHiddenError(double actualOutput, double weight, double error)
 	{		
-		return (weight * error) * (actualOutput * (1 - actualOutput));
+		return actualOutput * (1 - actualOutput) * (weight * error);
 	}
 }
