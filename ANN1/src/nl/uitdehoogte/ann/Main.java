@@ -12,6 +12,7 @@ import nl.uitdehoogte.ann.repository.NetworkWriter;
 import nl.uitdehoogte.ann.trainer.NetworkTrainer;
 import nl.uitdehoogte.ann.trainer.NumberNetworkTrainer;
 import nl.uitdehoogte.ann.trainer.calculator.error.BinairyErrorCalculator;
+import nl.uitdehoogte.ann.trainer.calculator.error.BogoErrorCalculator;
 import nl.uitdehoogte.ann.trainer.calculator.error.ErrorCalculator;
 import nl.uitdehoogte.ann.trainer.calculator.error.SigmoidErrorCalculator;
 import nl.uitdehoogte.ann.trainer.calculator.error.TangentErrorCalculator;
@@ -24,12 +25,15 @@ public class Main
 	
 	public static void main(String[] args)  
 	{	
-		//createAndTrainNetwork("data/test9.dat");
-		readAndExecuteNetwork("data/test8.dat");
+		createAndTrainNetwork("data/test12.dat");
+		readAndExecuteNetwork("data/test12.dat");
 	}
 	
 	private static void readAndExecuteNetwork(String inputFileName)
 	{
+		int[] correctValues   = new int[10],
+				 incorrectValues = new int[10];
+		
 		try
 		{
 			Network network = NetworkReader.read(inputFileName);
@@ -47,7 +51,7 @@ public class Main
 				input = samples[i].getNormalizedDoubleData();
 				output = network.getOutput(input);
 				
-				if(checkOutput(samples[i].getNumber(), output))
+				if(checkOutput(samples[i].getNumber(), output, correctValues, incorrectValues))
 				{
 					correct++;
 				}
@@ -63,6 +67,19 @@ public class Main
 			System.out.println("Samples  : " + samples.length);
 			System.out.println("Correct  : " + correct);
 			System.out.println("Incorrect: " + incorrect);
+			
+			System.out.println("Correct numbers:");
+			for(int i = 0; i < correctValues.length; i++)
+			{
+				System.out.println(i + ": " + correctValues[i]);
+			}
+			
+			System.out.println();
+			System.out.println("Incorrect numbers:");
+			for(int i = 0; i < correctValues.length; i++)
+			{
+				System.out.println(i + ": " + incorrectValues[i]);
+			}
 		}
 		catch(Exception e)
 		{
@@ -70,10 +87,13 @@ public class Main
 		}
 	}
 
-	private static boolean checkOutput(byte number, double[] output)
+	private static boolean checkOutput(byte number, double[] output, int[] correctValues, int[] incorrectValues)
 	{
 		double max = 0;
-		int index = 0;
+		int index = 0,
+		    intNumber = ((int)number & 0x000000FF);
+		
+		boolean returnValue = false;
 		
 		for(int i = 0; i < output.length; i++)
 		{
@@ -85,12 +105,23 @@ public class Main
 		}
 		//System.out.println("max: " + max + " index: " + index + " number: " + number);
 		
-		return index == ((int)number & 0x000000FF);
+		returnValue = index == intNumber;
+		
+		if(returnValue)
+		{
+			correctValues[intNumber]++;
+		}
+		else
+		{
+			incorrectValues[intNumber]++;
+		}
+		
+		return returnValue;
 	}
 	
 	private static void createAndTrainNetwork(String outputFileName)
 	{
-		int[] perceptrons = new int[] {784, 78, 10};
+		int[] perceptrons = new int[] {784, 83, 10};
 		
 		//ActivationFunction activationFunction = new BinairyActivationFunction();
 		ActivationFunction activationFunction = new SigmoidActivationFunction();
@@ -99,6 +130,7 @@ public class Main
 		//ErrorCalculator errorCalculator = new BinairyErrorCalculator();
 		ErrorCalculator errorCalculator = new SigmoidErrorCalculator();
 		//ErrorCalculator errorCalculator = new TangentErrorCalculator();
+		//ErrorCalculator errorCalculator = new BogoErrorCalculator();
 		
 		try
 		{
@@ -111,6 +143,7 @@ public class Main
 			double[] output = network.getOutput(input);
 			
 			NetworkTrainer networkTrainer = new NumberNetworkTrainer(network, errorCalculator);
+			networkTrainer.setLearningRate(0.375);
 			
 			long start = System.currentTimeMillis();
 			

@@ -1,5 +1,7 @@
 package nl.uitdehoogte.ann.trainer;
 
+import java.util.Random;
+
 import nl.uitdehoogte.ann.Layer;
 import nl.uitdehoogte.ann.Network;
 import nl.uitdehoogte.ann.Perceptron;
@@ -11,11 +13,13 @@ public abstract class NetworkTrainer
 {
 	private Network network;
 	private ErrorCalculator errorCalculator;
+	private double learningRate;
 	
 	public NetworkTrainer(Network network, ErrorCalculator errorCalculator)
 	{
 		this.network = network;
 		this.errorCalculator = errorCalculator;
+		this.learningRate = 0.35;
 	}
 	
 	public void train(Sample[] samples) throws PerceptronException
@@ -24,6 +28,11 @@ public abstract class NetworkTrainer
 		{
 			train(samples[i]);
 		}
+	}
+	
+	public void setLearningRate(double learningRate)
+	{
+		this.learningRate = learningRate;
 	}
 	
 	public void train(Sample sample) throws PerceptronException
@@ -91,7 +100,6 @@ public abstract class NetworkTrainer
 		{
 			double[] currentWeights = targetPerceptrons[i].getWeights();
 			double[] newWeights = new double[currentWeights.length];
-			double learningRate = 0.35;
 			
 			//update own bias
 			newWeights[0] = currentWeights[0] + (targetPerceptrons[i].getLastError() * learningRate); 
