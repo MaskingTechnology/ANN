@@ -23,8 +23,8 @@ public class Main
 	
 	public static void main(String[] args)  
 	{	
-		createAndTrainNetwork("data/test8.dat");
-		readAndExecuteNetwork("data/test8.dat");
+		createAndTrainNetwork("data/test9.dat");
+		readAndExecuteNetwork("data/test9.dat");
 	}
 	
 	private static void readAndExecuteNetwork(String inputFileName)
@@ -89,7 +89,7 @@ public class Main
 	
 	private static void createAndTrainNetwork(String outputFileName)
 	{
-		int[] perceptrons = new int[] {784, 96, 10};
+		int[] perceptrons = new int[] {784, 78, 10};
 		ActivationFunction activationFunction = new SigmoidActivationFunction();
 		
 		try

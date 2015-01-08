@@ -22,7 +22,7 @@ public abstract class NetworkTrainer
 	{
 		for (int i = 0; i < samples.length; i++)
 		{
-			train(samples[0]);
+			train(samples[i]);
 		}
 	}
 	
@@ -91,7 +91,7 @@ public abstract class NetworkTrainer
 		{
 			double[] currentWeights = targetPerceptrons[i].getWeights();
 			double[] newWeights = new double[currentWeights.length];
-			double learningRate = 0.3;
+			double learningRate = 0.35;
 			
 			//update own bias
 			newWeights[0] = currentWeights[0] + (targetPerceptrons[i].getLastError() * learningRate); 

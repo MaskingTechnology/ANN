@@ -13,7 +13,7 @@ public class SampleAnalyser
 	
 	public double[] analyse(Sample sample) throws PerceptronException
 	{
-		double[] input = sample.getDoubleData();
+		double[] input = sample.getNormalizedDoubleData();
 		double[] output = network.getOutput(input);
 		
 		setNumber(sample, output);
