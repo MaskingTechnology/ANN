@@ -127,6 +127,7 @@ public class Main
 		//ActivationFunction activationFunction = new BinairyActivationFunction();
 		ActivationFunction activationFunction = new SigmoidActivationFunction();
 		//ActivationFunction activationFunction = new TangentActivationFunction();
+		//ActivationFunction activationFunction = new BogoActivationFunction();
 		
 		//ErrorCalculator errorCalculator = new BinairyErrorCalculator();
 		ErrorCalculator errorCalculator = new SigmoidErrorCalculator();
