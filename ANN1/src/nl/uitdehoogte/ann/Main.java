@@ -12,6 +12,7 @@ import nl.uitdehoogte.ann.repository.NetworkWriter;
 import nl.uitdehoogte.ann.trainer.NetworkTrainer;
 import nl.uitdehoogte.ann.trainer.NumberNetworkTrainer;
 import nl.uitdehoogte.ann.trainer.calculator.error.BinairyErrorCalculator;
+import nl.uitdehoogte.ann.trainer.calculator.error.ErrorCalculator;
 import nl.uitdehoogte.ann.trainer.calculator.error.SigmoidErrorCalculator;
 import nl.uitdehoogte.ann.trainer.calculator.error.TangentErrorCalculator;
 
@@ -23,8 +24,8 @@ public class Main
 	
 	public static void main(String[] args)  
 	{	
-		createAndTrainNetwork("data/test9.dat");
-		readAndExecuteNetwork("data/test9.dat");
+		//createAndTrainNetwork("data/test9.dat");
+		readAndExecuteNetwork("data/test8.dat");
 	}
 	
 	private static void readAndExecuteNetwork(String inputFileName)
@@ -90,7 +91,14 @@ public class Main
 	private static void createAndTrainNetwork(String outputFileName)
 	{
 		int[] perceptrons = new int[] {784, 78, 10};
+		
+		//ActivationFunction activationFunction = new BinairyActivationFunction();
 		ActivationFunction activationFunction = new SigmoidActivationFunction();
+		//ActivationFunction activationFunction = new TangentActivationFunction();
+		
+		//ErrorCalculator errorCalculator = new BinairyErrorCalculator();
+		ErrorCalculator errorCalculator = new SigmoidErrorCalculator();
+		//ErrorCalculator errorCalculator = new TangentErrorCalculator();
 		
 		try
 		{
@@ -102,7 +110,7 @@ public class Main
 			double[] input = samples[0].getNormalizedDoubleData();
 			double[] output = network.getOutput(input);
 			
-			NetworkTrainer networkTrainer = new NumberNetworkTrainer(network, new SigmoidErrorCalculator());
+			NetworkTrainer networkTrainer = new NumberNetworkTrainer(network, errorCalculator);
 			
 			long start = System.currentTimeMillis();
 			
