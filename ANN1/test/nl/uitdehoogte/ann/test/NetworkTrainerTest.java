@@ -48,7 +48,7 @@ public class NetworkTrainerTest extends TestCase
 		//Set the weights to known values
 		perceptrons[0].setWeights(new double[] {0.0, 0.3, 0.9});
 		
-		networkTrainer = new SampleSigmoidNetworkTrainer(network, new SigmoidErrorCalculator());
+		networkTrainer = new SampleSigmoidNetworkTrainer(network);
 	}
 	
 	//@Test
