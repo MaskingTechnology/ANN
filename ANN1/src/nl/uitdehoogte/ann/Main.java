@@ -32,7 +32,7 @@ public class Main
 	private static void readAndExecuteNetwork(String inputFileName)
 	{
 		int[] correctValues   = new int[10],
-				 incorrectValues = new int[10];
+			  incorrectValues = new int[10];
 		
 		try
 		{
