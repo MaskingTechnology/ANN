@@ -1,7 +1,11 @@
 package nl.uitdehoogte.ann.trainer.calculator.error;
 
-public class TangentErrorCalculator implements ErrorCalculator
+import java.io.Serializable;
+
+public class TangentErrorCalculator implements ErrorCalculator, Serializable
 {
+	private static final long serialVersionUID = 610143577953410908L;
+
 	public double calculateOutputError(double actualOutput, double expectedOutput)
 	{
 		return 2.0 / 3 * (1.7159 - (actualOutput * actualOutput)) * (expectedOutput - actualOutput);

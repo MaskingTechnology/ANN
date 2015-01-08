@@ -129,11 +129,6 @@ public class Main
 		//ActivationFunction activationFunction = new TangentActivationFunction();
 		//ActivationFunction activationFunction = new BogoActivationFunction();
 		
-		//ErrorCalculator errorCalculator = new BinairyErrorCalculator();
-		ErrorCalculator errorCalculator = new SigmoidErrorCalculator();
-		//ErrorCalculator errorCalculator = new TangentErrorCalculator();
-		//ErrorCalculator errorCalculator = new BogoErrorCalculator();
-		
 		try
 		{
 			Network network = NetworkBuilder.build(perceptrons, activationFunction);
@@ -144,7 +139,7 @@ public class Main
 			double[] input = samples[0].getNormalizedDoubleData();
 			double[] output = network.getOutput(input);
 			
-			NetworkTrainer networkTrainer = new NumberNetworkTrainer(network, errorCalculator);
+			NetworkTrainer networkTrainer = new NumberNetworkTrainer(network);
 			networkTrainer.setLearningRate(0.39);
 			
 			long start = System.currentTimeMillis();

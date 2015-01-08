@@ -8,6 +8,9 @@ import nl.uitdehoogte.ann.Perceptron;
 import nl.uitdehoogte.ann.PerceptronException;
 import nl.uitdehoogte.ann.activation.ActivationFunction;
 import nl.uitdehoogte.ann.activation.LinearActivationFunction;
+import nl.uitdehoogte.ann.trainer.calculator.error.BinairyErrorCalculator;
+import nl.uitdehoogte.ann.trainer.calculator.error.BogoErrorCalculator;
+import nl.uitdehoogte.ann.trainer.calculator.error.SigmoidErrorCalculator;
 
 public class NetworkBuilder 
 {
@@ -35,21 +38,21 @@ public class NetworkBuilder
 		
 		Perceptron[] perceptrons = createPerceptrons(perceptronCount, activationFunction, weights);
 		
-		return new Layer(perceptrons);
+		return new Layer(perceptrons, new BogoErrorCalculator());
 	}
 	
 	private static Layer buildHiddenLayer(int perceptronCount, int inputCount, ActivationFunction activationFunction) throws PerceptronException
 	{		
 		Perceptron[] perceptrons = createPerceptrons(perceptronCount, inputCount, activationFunction);
 		
-		return new Layer(perceptrons);
+		return new Layer(perceptrons, new SigmoidErrorCalculator());
 	}
 	
 	private static Layer buildOutputLayer(int perceptronCount, int inputCount, ActivationFunction activationFunction) throws PerceptronException
 	{		
 		Perceptron[] perceptrons = createPerceptrons(perceptronCount, inputCount, activationFunction);
 		
-		return new Layer(perceptrons);
+		return new Layer(perceptrons, new SigmoidErrorCalculator());
 	}
 	
 	private static double[] generateRandomWeights(int inputCount)

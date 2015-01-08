@@ -1,16 +1,19 @@
 package nl.uitdehoogte.ann;
 
 import java.io.Serializable;
+import nl.uitdehoogte.ann.trainer.calculator.error.ErrorCalculator;
 
 
 public class Layer implements Serializable
 {
 	private static final long serialVersionUID = 8508449559696724813L;
 	private Perceptron[] perceptrons;
+	private ErrorCalculator errorCalculator;
 	
-	public Layer(Perceptron[] perceptrons) 
+	public Layer(Perceptron[] perceptrons, ErrorCalculator errorCalculator) 
 	{
 		this.perceptrons = perceptrons;
+		this.errorCalculator = errorCalculator;
 	}
 	
 	public double[] getOutput(double[] input) throws PerceptronException
@@ -33,5 +36,10 @@ public class Layer implements Serializable
 	public Perceptron[] getPerceptrons()
 	{
 		return this.perceptrons;
+	}
+	
+	public ErrorCalculator getErrorCalculator()
+	{
+		return this.errorCalculator;
 	}
 }

@@ -1,7 +1,5 @@
 package nl.uitdehoogte.ann.trainer;
 
-import java.util.Random;
-
 import nl.uitdehoogte.ann.Layer;
 import nl.uitdehoogte.ann.Network;
 import nl.uitdehoogte.ann.Perceptron;
@@ -12,13 +10,11 @@ import nl.uitdehoogte.ann.trainer.calculator.error.ErrorCalculator;
 public abstract class NetworkTrainer
 {
 	private Network network;
-	private ErrorCalculator errorCalculator;
 	private double learningRate;
 	
-	public NetworkTrainer(Network network, ErrorCalculator errorCalculator)
+	public NetworkTrainer(Network network)
 	{
 		this.network = network;
-		this.errorCalculator = errorCalculator;
 		this.learningRate = 0.35;
 	}
 	
@@ -79,14 +75,15 @@ public abstract class NetworkTrainer
 	public void setLastOutputErrors(Layer outputLayer)
 	{
 		Perceptron[] perceptrons = outputLayer.getPerceptrons();
+		ErrorCalculator errorCalculator = outputLayer.getErrorCalculator();
 		
 		for (int i = 0; i < perceptrons.length; i++)
 		{
-			perceptrons[i].setLastError(calculateOutputError(perceptrons[i].getLastOutput(), perceptrons[i].getLastExpectedOutput()));
+			perceptrons[i].setLastError(calculateOutputError(errorCalculator, perceptrons[i].getLastOutput(), perceptrons[i].getLastExpectedOutput()));
 		}
 	}
 	
-	private double calculateOutputError(double actualOutput, double expectedOutput)
+	private double calculateOutputError(ErrorCalculator errorCalculator, double actualOutput, double expectedOutput)
 	{
 		return errorCalculator.calculateOutputError(actualOutput, expectedOutput);
 	}
@@ -123,6 +120,7 @@ public abstract class NetworkTrainer
 		//current = hidden, previous = output
 		Perceptron[] previousPerceptrons = previousLayer.getPerceptrons();
 		Perceptron[] currentPerceptrons = currentLayer.getPerceptrons();
+		ErrorCalculator errorCalculator = currentLayer.getErrorCalculator();
 		
 		for (int i = 0; i < previousPerceptrons.length; i++)
 		{
@@ -130,12 +128,12 @@ public abstract class NetworkTrainer
 			
 			for (int j = 0; j < weights.length - 1; j++)
 			{
-				currentPerceptrons[j].setLastError(calculateHiddenError(currentPerceptrons[j].getLastOutput(), weights[j + 1], previousPerceptrons[i].getLastError()));
+				currentPerceptrons[j].setLastError(calculateHiddenError(errorCalculator, currentPerceptrons[j].getLastOutput(), weights[j + 1], previousPerceptrons[i].getLastError()));
 			}
 		}
 	}
 	
-	private double calculateHiddenError(double actualOutput, double weight, double error)
+	private double calculateHiddenError(ErrorCalculator errorCalculator, double actualOutput, double weight, double error)
 	{
 		return errorCalculator.calculateHiddenError(actualOutput, weight, error);
 	}

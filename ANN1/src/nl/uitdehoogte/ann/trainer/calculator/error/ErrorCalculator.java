@@ -1,6 +1,6 @@
 package nl.uitdehoogte.ann.trainer.calculator.error;
 
-public interface ErrorCalculator 
+public interface ErrorCalculator
 {
 	public double calculateOutputError(double actualOutput, double expectedOutput);
 	
