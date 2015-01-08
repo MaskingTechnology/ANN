@@ -6,6 +6,7 @@ import java.util.Random;
 public class BogoErrorCalculator implements ErrorCalculator
 {
 	private Random random;
+	private double nextDouble;
 	
 	public BogoErrorCalculator()
 	{
@@ -14,11 +15,13 @@ public class BogoErrorCalculator implements ErrorCalculator
 	
 	public double calculateOutputError(double actualOutput, double expectedOutput)
 	{
-		return random.nextInt(1) * (expectedOutput - actualOutput);
+		nextDouble = random.nextDouble();
+		return nextDouble * (1 - nextDouble) * (expectedOutput - actualOutput);
 	}
 	
 	public double calculateHiddenError(double actualOutput, double weight, double error)
 	{
-		return random.nextInt(1) * (weight * error);
+		nextDouble = random.nextDouble();
+		return nextDouble * (1 - nextDouble) * (weight * error);
 	}
 }

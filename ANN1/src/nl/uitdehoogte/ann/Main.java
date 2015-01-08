@@ -122,7 +122,7 @@ public class Main
 	
 	private static void createAndTrainNetwork(String outputFileName)
 	{
-		int[] perceptrons = new int[] {784, 10};
+		int[] perceptrons = new int[] {784, 32, 10};
 		
 		//ActivationFunction activationFunction = new BinairyActivationFunction();
 		ActivationFunction activationFunction = new SigmoidActivationFunction();
