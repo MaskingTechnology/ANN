@@ -25,8 +25,8 @@ public class Main
 	
 	public static void main(String[] args)  
 	{	
-		createAndTrainNetwork("data/test12.dat");
-		readAndExecuteNetwork("data/test12.dat");
+		createAndTrainNetwork("data/test13.dat");
+		readAndExecuteNetwork("data/test13.dat");
 	}
 	
 	private static void readAndExecuteNetwork(String inputFileName)
@@ -67,6 +67,7 @@ public class Main
 			System.out.println("Samples  : " + samples.length);
 			System.out.println("Correct  : " + correct);
 			System.out.println("Incorrect: " + incorrect);
+			System.out.println();
 			
 			System.out.println("Correct numbers:");
 			for(int i = 0; i < correctValues.length; i++)
@@ -121,7 +122,7 @@ public class Main
 	
 	private static void createAndTrainNetwork(String outputFileName)
 	{
-		int[] perceptrons = new int[] {784, 83, 10};
+		int[] perceptrons = new int[] {784, 82, 10};
 		
 		//ActivationFunction activationFunction = new BinairyActivationFunction();
 		ActivationFunction activationFunction = new SigmoidActivationFunction();
@@ -143,7 +144,7 @@ public class Main
 			double[] output = network.getOutput(input);
 			
 			NetworkTrainer networkTrainer = new NumberNetworkTrainer(network, errorCalculator);
-			networkTrainer.setLearningRate(0.375);
+			networkTrainer.setLearningRate(0.39);
 			
 			long start = System.currentTimeMillis();
 			
