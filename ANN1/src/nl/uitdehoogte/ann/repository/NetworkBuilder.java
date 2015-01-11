@@ -38,21 +38,21 @@ public class NetworkBuilder
 		
 		Perceptron[] perceptrons = createPerceptrons(perceptronCount, activationFunction, weights);
 		
-		return new Layer(perceptrons, new BogoErrorCalculator());
+		return new Layer(perceptrons, activationFunction.getErrorCalculator());
 	}
 	
 	private static Layer buildHiddenLayer(int perceptronCount, int inputCount, ActivationFunction activationFunction) throws PerceptronException
 	{		
 		Perceptron[] perceptrons = createPerceptrons(perceptronCount, inputCount, activationFunction);
 		
-		return new Layer(perceptrons, new SigmoidErrorCalculator());
+		return new Layer(perceptrons, activationFunction.getErrorCalculator());
 	}
 	
 	private static Layer buildOutputLayer(int perceptronCount, int inputCount, ActivationFunction activationFunction) throws PerceptronException
 	{		
 		Perceptron[] perceptrons = createPerceptrons(perceptronCount, inputCount, activationFunction);
 		
-		return new Layer(perceptrons, new SigmoidErrorCalculator());
+		return new Layer(perceptrons, activationFunction.getErrorCalculator());
 	}
 	
 	private static double[] generateRandomWeights(int inputCount)

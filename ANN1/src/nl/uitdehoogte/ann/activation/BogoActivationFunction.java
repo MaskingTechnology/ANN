@@ -2,6 +2,9 @@ package nl.uitdehoogte.ann.activation;
 
 import java.util.Random;
 
+import nl.uitdehoogte.ann.trainer.calculator.error.BogoErrorCalculator;
+import nl.uitdehoogte.ann.trainer.calculator.error.ErrorCalculator;
+
 public class BogoActivationFunction implements ActivationFunction
 {
 	private static final long serialVersionUID = -2878271108716345002L;
@@ -17,4 +20,9 @@ public class BogoActivationFunction implements ActivationFunction
 	{
 		return random.nextDouble();
 	}
+	
+	public ErrorCalculator getErrorCalculator()
+	{
+		return new BogoErrorCalculator();
+	}	
 }

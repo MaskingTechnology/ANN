@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.util.Random;
 
 import nl.uitdehoogte.ann.activation.*;
+import nl.uitdehoogte.ann.data.IdxFileReader;
 import nl.uitdehoogte.ann.data.IdxReader;
+import nl.uitdehoogte.ann.data.RandomIdxReader;
 import nl.uitdehoogte.ann.data.Sample;
 import nl.uitdehoogte.ann.repository.NetworkBuilder;
 import nl.uitdehoogte.ann.repository.NetworkReader;
@@ -122,7 +124,8 @@ public class Main
 	
 	private static void createAndTrainNetwork(String outputFileName)
 	{
-		int[] perceptrons = new int[] {784, 32, 10};
+		int[] perceptrons = new int[] {784, 24, 10};
+		int iterations = 250001;
 		
 		//ActivationFunction activationFunction = new BinairyActivationFunction();
 		ActivationFunction activationFunction = new SigmoidActivationFunction();
@@ -133,25 +136,22 @@ public class Main
 		{
 			Network network = NetworkBuilder.build(perceptrons, activationFunction);
 
-			Sample[] samples = readIdxFiles("data/train-labels.idx1-ubyte",
-					                        "data/train-images.idx3-ubyte"); 
-			
-			double[] input = samples[0].getNormalizedDoubleData();
-			double[] output = network.getOutput(input);
+			IdxReader reader = createIdxReader("data/train-labels.idx1-ubyte",
+                    						   "data/train-images.idx3-ubyte"); 
+
+			reader = new RandomIdxReader(reader);
 			
 			NetworkTrainer networkTrainer = new NumberNetworkTrainer(network);
 			networkTrainer.setLearningRate(0.39);
 			
 			long start = System.currentTimeMillis();
 			
-			for(int i = 0; i < samples.length; i++)
+			while(--iterations > 0)
 			{
-				networkTrainer.train(samples[i]);
+				networkTrainer.train(reader.getNextSample());
 			}
 			
 			long end = System.currentTimeMillis();
-			
-			output = network.getOutput(input);
 			
 			System.out.println(end - start);
 			
@@ -201,11 +201,12 @@ public class Main
 	
 	private static Sample[] readIdxFiles(String Idx1FileName, String Idx3FileName)
 	{
-		IdxReader reader = new IdxReader(Idx1FileName, Idx3FileName);
+		IdxFileReader reader = new IdxFileReader(Idx1FileName, Idx3FileName);
 		
 		try 
 		{
-			return reader.read();			
+			reader.read();
+			return reader.getAllSamples();			
 		} 
 		catch (IOException e) 
 		{
@@ -213,5 +214,22 @@ public class Main
 		}
 		
 		return null;
+	}
+	
+	private static IdxReader createIdxReader(String Idx1FileName, String Idx3FileName)
+	{
+		IdxReader reader = new IdxFileReader(Idx1FileName, Idx3FileName);
+		
+		try 
+		{
+			reader.read();
+			return reader;			
+		} 
+		catch (IOException e) 
+		{
+			System.err.println(e.getMessage());
+		}
+		
+		return null; 
 	}
 }

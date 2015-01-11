@@ -2,7 +2,7 @@ package nl.uitdehoogte.ann.trainer.calculator.error;
 
 import java.io.Serializable;
 
-public class SigmoidErrorCalculator implements ErrorCalculator, Serializable
+public class SigmoidErrorCalculator implements ErrorCalculator
 {
 	private static final long serialVersionUID = -4484678169316421493L;
 

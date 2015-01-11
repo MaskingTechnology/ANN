@@ -1,5 +1,8 @@
 package nl.uitdehoogte.ann.activation;
 
+import nl.uitdehoogte.ann.trainer.calculator.error.BinairyErrorCalculator;
+import nl.uitdehoogte.ann.trainer.calculator.error.ErrorCalculator;
+
 public class BinairyActivationFunction implements ActivationFunction 
 {
 	private static final long serialVersionUID = -1421072142407441918L;
@@ -7,5 +10,10 @@ public class BinairyActivationFunction implements ActivationFunction
 	public double execute(double input) 
 	{
 		return input > 0 ? 1.0: -1.0;
+	}
+	
+	public ErrorCalculator getErrorCalculator()
+	{
+		return new BinairyErrorCalculator();
 	}
 }

@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import org.junit.Test;
 
-import nl.uitdehoogte.ann.data.IdxReader;
+import nl.uitdehoogte.ann.data.IdxFileReader;
 import nl.uitdehoogte.ann.data.Sample;
 import junit.framework.TestCase;
 
@@ -14,9 +14,10 @@ public class SampleTest extends TestCase
 	
 	public SampleTest() throws IOException
 	{
-        IdxReader reader = new IdxReader("data/train-labels.idx1-ubyte", "data/train-images.idx3-ubyte");
+        IdxFileReader reader = new IdxFileReader("data/train-labels.idx1-ubyte", "data/train-images.idx3-ubyte");
 
-		samples = reader.read();
+        reader.read();
+		samples = reader.getAllSamples();
 	}
 	
 	@Override

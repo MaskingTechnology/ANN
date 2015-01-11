@@ -7,13 +7,14 @@ public class Main
 {
 	public static void main(String[] args) 
 	{
-		IdxReader reader = new IdxReader(
+		IdxFileReader reader = new IdxFileReader(
 				"C:/Users/Bas Meeuwissen/Documents/Prog/handwritten dataset/train-labels.idx1-ubyte",
 				"C:/Users/Bas Meeuwissen/Documents/Prog/handwritten dataset/train-images.idx3-ubyte");
 		
 		try 
 		{
-			Sample[] samples = reader.read();
+			reader.read();
+			Sample[] samples = reader.getAllSamples();
 			
 			printSample(samples[1]);
 			

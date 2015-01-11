@@ -1,6 +1,8 @@
 package nl.uitdehoogte.ann.trainer.calculator.error;
 
-public interface ErrorCalculator
+import java.io.Serializable;
+
+public interface ErrorCalculator extends Serializable
 {
 	public double calculateOutputError(double actualOutput, double expectedOutput);
 	

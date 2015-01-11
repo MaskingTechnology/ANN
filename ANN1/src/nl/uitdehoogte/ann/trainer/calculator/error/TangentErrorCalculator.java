@@ -2,7 +2,7 @@ package nl.uitdehoogte.ann.trainer.calculator.error;
 
 import java.io.Serializable;
 
-public class TangentErrorCalculator implements ErrorCalculator, Serializable
+public class TangentErrorCalculator implements ErrorCalculator
 {
 	private static final long serialVersionUID = 610143577953410908L;
 

@@ -3,7 +3,7 @@ package nl.uitdehoogte.ann.trainer.calculator.error;
 import java.io.Serializable;
 import java.util.Random;
 
-public class BogoErrorCalculator implements ErrorCalculator, Serializable
+public class BogoErrorCalculator implements ErrorCalculator
 {
 	private static final long serialVersionUID = 1765780499412566553L;
 	private Random random;
