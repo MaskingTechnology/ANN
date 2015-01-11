@@ -15,6 +15,11 @@ public class Sample
 		this.dimension = dimension;
 	}
 	
+	public Sample(byte[] data, Dimension dimension)
+	{
+		this((byte)0, data, dimension);
+	}
+	
 	public byte getNumber() 
 	{
 		return this.number;

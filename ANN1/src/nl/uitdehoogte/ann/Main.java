@@ -27,8 +27,8 @@ public class Main
 	
 	public static void main(String[] args)  
 	{	
-		createAndTrainNetwork("data/test15.dat");
-		readAndExecuteNetwork("data/test15.dat");
+		//createAndTrainNetwork("data/test15.dat");
+		readAndExecuteNetwork("data/test13.dat");
 	}
 	
 	private static void readAndExecuteNetwork(String inputFileName)
