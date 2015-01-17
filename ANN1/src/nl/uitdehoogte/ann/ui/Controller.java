@@ -6,6 +6,9 @@ import java.awt.event.ActionListener;
 
 import nl.uitdehoogte.ann.Network;
 import nl.uitdehoogte.ann.PerceptronException;
+import nl.uitdehoogte.ann.data.IdxReader;
+import nl.uitdehoogte.ann.data.IdxFileReader;
+import nl.uitdehoogte.ann.data.RandomIdxReader;
 import nl.uitdehoogte.ann.data.Sample;
 import nl.uitdehoogte.ann.repository.NetworkReader;
 
@@ -13,6 +16,7 @@ public class Controller implements ActionListener
 {
 	private Window window;
 	private Network network;
+	private IdxReader reader;
 	
 	public Controller()
 	{
@@ -20,9 +24,15 @@ public class Controller implements ActionListener
 		{
 			window = new Window();
 		
-			window.getButton().addActionListener(this);
+			window.getExecuteButton().addActionListener(this);
+			window.getReadButton().addActionListener(this);
 		
-			network = NetworkReader.read("data/test13.dat");
+			network = NetworkReader.read("data/test18.dat");
+			
+			reader = new RandomIdxReader(new IdxFileReader("data/t10k-labels.idx1-ubyte",
+                    									   "data/t10k-images.idx3-ubyte"));
+			
+			reader.read();
 		}
 		catch(Exception e)
 		{
@@ -32,8 +42,25 @@ public class Controller implements ActionListener
 	
 	public void actionPerformed(ActionEvent e) 
 	{
-		execute();
+	    if(e.getSource() == window.getExecuteButton())
+	    {
+	    	execute();
+	    }
+	    else
+	    {
+	    	readNextSample();
+	    	execute();
+	    }
 	}	
+	
+	private void readNextSample()
+	{
+		Sample sample = reader.getNextSample();
+		
+		window.getCanvas().setPixels(inflateData(sample.getData(), sample.getDimension()));
+		
+		window.getCanvas().repaint();
+	}
 	
 	private void execute()
 	{
@@ -47,9 +74,11 @@ public class Controller implements ActionListener
 			
 			double max = 0;
 			int index = 0;
+			StringBuffer statistics = new StringBuffer();
 			
 			for(int i = 0; i < output.length; i++)
 			{
+				statistics.append(String.format("%d: %.10f\n", i, output[i]));
 				if(output[i] > max)
 				{
 					max = output[i];
@@ -57,7 +86,8 @@ public class Controller implements ActionListener
 				}
 			}
 			
-			System.out.println(index);
+			window.getResultLabel().setText("" + index);
+			window.getStatisticsTextArea().setText(statistics.toString());
 		}
 		catch(Exception e)
 		{
@@ -94,6 +124,14 @@ public class Controller implements ActionListener
 	private byte[][] inflateData(byte[] data, Dimension dimension)
 	{
 		byte[][] result = new byte[dimension.height][dimension.width];
+		
+		for(int y = 0; y < dimension.height; y++)
+		{
+			for(int x = 0; x < dimension.width; x++)
+			{
+				result[y][x] = data[y * dimension.width + x];
+			}
+		}
 		
 		return result;
 	}

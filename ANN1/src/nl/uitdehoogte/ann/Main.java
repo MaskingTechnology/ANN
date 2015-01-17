@@ -27,8 +27,8 @@ public class Main
 	
 	public static void main(String[] args)  
 	{	
-		//createAndTrainNetwork("data/test15.dat");
-		readAndExecuteNetwork("data/test13.dat");
+		createAndTrainNetwork("data/test1.dat");
+		readAndExecuteNetwork("data/test1.dat");
 	}
 	
 	private static void readAndExecuteNetwork(String inputFileName)
@@ -124,8 +124,8 @@ public class Main
 	
 	private static void createAndTrainNetwork(String outputFileName)
 	{
-		int[] perceptrons = new int[] {784, 24, 10};
-		int iterations = 250001;
+		int[] perceptrons = new int[] {784, 32, 10};
+		int iterations = 350001;
 		
 		//ActivationFunction activationFunction = new BinairyActivationFunction();
 		ActivationFunction activationFunction = new SigmoidActivationFunction();

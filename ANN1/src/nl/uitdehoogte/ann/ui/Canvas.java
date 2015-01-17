@@ -41,7 +41,7 @@ public class Canvas extends JPanel implements MouseListener, MouseMotionListener
 		if(e.getButton() == MouseEvent.BUTTON1)
 		{
 			drawing = true;
-		
+			clearDrawing();
 			setPixel(calculatePoint(e));
 		}
 		else
@@ -82,16 +82,14 @@ public class Canvas extends JPanel implements MouseListener, MouseMotionListener
 	{
 		super.paintComponent(g);
 		
-		g.setColor(Color.BLACK);
+		//g.setColor(Color.BLACK);
 		
 		for(int y = 0; y < HEIGHT; y++)
 		{
 			for(int x = 0; x < WIDTH; x++)
 			{
-				if(pixels[y][x] != 0)
-				{
-					g.fillRect(x * SCALING_FACTOR, y * SCALING_FACTOR, SCALING_FACTOR, SCALING_FACTOR);
-				}
+				g.setColor(getColor(pixels[y][x]));
+				g.fillRect(x * SCALING_FACTOR, y * SCALING_FACTOR, SCALING_FACTOR, SCALING_FACTOR);
 			}
 		}
 	}
@@ -104,6 +102,15 @@ public class Canvas extends JPanel implements MouseListener, MouseMotionListener
 	public void setPixels(byte[][] pixels)
 	{
 		this.pixels = pixels;
+	}
+	
+	private Color getColor(byte pixel)
+	{
+		int temp = (int)pixel & 0x000000FF;
+		
+		temp = 0xFF - temp;
+		
+		return new Color(temp, temp, temp);
 	}
 	
 	private Point calculatePoint(MouseEvent e)
@@ -121,6 +128,10 @@ public class Canvas extends JPanel implements MouseListener, MouseMotionListener
 		if(point.y < HEIGHT && point.x < WIDTH)
 		{
 			pixels[point.y][point.x] = (byte) 0xFF;
+			pixels[point.y - 1][point.x] = (byte) Math.max(0x70, (int) pixels[point.y - 1][point.x] & 0x000000FF);
+			pixels[point.y][point.x + 1] = (byte) Math.max(0x70, (int) pixels[point.y][point.x + 1] & 0x000000FF);
+			pixels[point.y + 1][point.x] = (byte) Math.max(0x70, (int) pixels[point.y + 1][point.x] & 0x000000FF);
+			pixels[point.y][point.x - 1] = (byte) Math.max(0x70, (int) pixels[point.y][point.x - 1] & 0x000000FF);
 			
 			repaint();
 		}
