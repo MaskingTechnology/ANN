@@ -41,7 +41,7 @@ public class Canvas extends JPanel implements MouseListener, MouseMotionListener
 		if(e.getButton() == MouseEvent.BUTTON1)
 		{
 			drawing = true;
-			clearDrawing();
+			//clearDrawing();
 			setPixel(calculatePoint(e));
 		}
 		else
@@ -81,8 +81,6 @@ public class Canvas extends JPanel implements MouseListener, MouseMotionListener
 	public void paintComponent(Graphics g)
 	{
 		super.paintComponent(g);
-		
-		//g.setColor(Color.BLACK);
 		
 		for(int y = 0; y < HEIGHT; y++)
 		{
@@ -125,13 +123,29 @@ public class Canvas extends JPanel implements MouseListener, MouseMotionListener
 	
 	private void setPixel(Point point)
 	{
-		if(point.y < HEIGHT && point.x < WIDTH)
+		if(point.y < HEIGHT && point.y >= 0 && point.x < WIDTH && point.x >= 0)
 		{
 			pixels[point.y][point.x] = (byte) 0xFF;
-			pixels[point.y - 1][point.x] = (byte) Math.max(0x70, (int) pixels[point.y - 1][point.x] & 0x000000FF);
-			pixels[point.y][point.x + 1] = (byte) Math.max(0x70, (int) pixels[point.y][point.x + 1] & 0x000000FF);
-			pixels[point.y + 1][point.x] = (byte) Math.max(0x70, (int) pixels[point.y + 1][point.x] & 0x000000FF);
-			pixels[point.y][point.x - 1] = (byte) Math.max(0x70, (int) pixels[point.y][point.x - 1] & 0x000000FF);
+			
+			if(point.y > 0)
+			{
+				pixels[point.y - 1][point.x] = (byte) Math.max(0x70, (int) pixels[point.y - 1][point.x] & 0x000000FF);
+			}
+			
+			if(point.x < 27)
+			{
+				pixels[point.y][point.x + 1] = (byte) Math.max(0x70, (int) pixels[point.y][point.x + 1] & 0x000000FF);
+			}
+			
+			if(point.y < 27)
+			{
+				pixels[point.y + 1][point.x] = (byte) Math.max(0x70, (int) pixels[point.y + 1][point.x] & 0x000000FF);
+			}
+			
+			if(point.x > 0)
+			{
+				pixels[point.y][point.x - 1] = (byte) Math.max(0x70, (int) pixels[point.y][point.x - 1] & 0x000000FF);
+			}
 			
 			repaint();
 		}
