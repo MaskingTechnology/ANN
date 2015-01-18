@@ -63,8 +63,8 @@ public class Sample
 		{
 			temp = (int)data[i] & 0x000000FF;
 			
-			//result[i] = (double)temp / 0xFF;
-			result[i] = temp > 0 ? 1.0: 0.0;
+			result[i] = (double)temp / 0xFF;
+			//result[i] = temp > 0 ? 1.0: 0.0;
 		}
 		
 		return result;	

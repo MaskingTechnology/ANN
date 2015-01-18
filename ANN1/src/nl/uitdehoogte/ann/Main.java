@@ -27,14 +27,37 @@ public class Main
 	
 	public static void main(String[] args)  
 	{	
-		createAndTrainNetwork("data/test1.dat");
-		readAndExecuteNetwork("data/test1.dat");
+		int maxCorrect = 0,
+		    correct = 0,
+		    dataIndex = 20;
+		
+		for(int i = 0; i < 10000; i++)
+		{
+			createAndTrainNetwork("data/test" + dataIndex + ".dat");
+			correct = readAndExecuteNetwork("data/test" + dataIndex + ".dat");
+			
+			System.out.print("Done\t" + (i + 1));
+			
+			if(correct > maxCorrect)
+			{
+				maxCorrect = correct;
+				dataIndex++;
+				System.out.print("\tCorrect: " + correct + " ");
+			}
+			
+			System.out.println();
+		}
+		
+		System.out.println(maxCorrect);
 	}
 	
-	private static void readAndExecuteNetwork(String inputFileName)
+	private static int readAndExecuteNetwork(String inputFileName)
 	{
 		int[] correctValues   = new int[10],
 			  incorrectValues = new int[10];
+		
+		int correct = 0,
+			incorrect = 0;
 		
 		try
 		{
@@ -45,8 +68,6 @@ public class Main
 			
 			double[] input,
 			         output;
-			int correct = 0,
-			    incorrect = 0;
 			
 			for(int i = 0; i < samples.length; i++)
 			{
@@ -65,6 +86,7 @@ public class Main
 				//printOutput(output);
 			}
 			
+			/*
 			System.out.println();
 			System.out.println("Samples  : " + samples.length);
 			System.out.println("Correct  : " + correct);
@@ -83,11 +105,14 @@ public class Main
 			{
 				System.out.println(i + ": " + incorrectValues[i]);
 			}
+			*/
 		}
 		catch(Exception e)
 		{
 			e.printStackTrace();
 		}
+		
+		return correct;
 	}
 
 	private static boolean checkOutput(byte number, double[] output, int[] correctValues, int[] incorrectValues)
@@ -124,7 +149,7 @@ public class Main
 	
 	private static void createAndTrainNetwork(String outputFileName)
 	{
-		int[] perceptrons = new int[] {784, 32, 10};
+		int[] perceptrons = new int[] {784, 96, 10};
 		int iterations = 350001;
 		
 		//ActivationFunction activationFunction = new BinairyActivationFunction();
@@ -144,16 +169,16 @@ public class Main
 			NetworkTrainer networkTrainer = new NumberNetworkTrainer(network);
 			networkTrainer.setLearningRate(0.39);
 			
-			long start = System.currentTimeMillis();
+			//long start = System.currentTimeMillis();
 			
 			while(--iterations > 0)
 			{
 				networkTrainer.train(reader.getNextSample());
 			}
 			
-			long end = System.currentTimeMillis();
+			//long end = System.currentTimeMillis();
 			
-			System.out.println(end - start);
+			//System.out.println(end - start);
 			
 			NetworkWriter.write(network, outputFileName);
 		}
