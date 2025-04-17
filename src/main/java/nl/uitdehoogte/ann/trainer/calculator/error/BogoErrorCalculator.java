@@ -1,6 +1,5 @@
 package nl.uitdehoogte.ann.trainer.calculator.error;
 
-import java.io.Serializable;
 import java.util.Random;
 
 public class BogoErrorCalculator implements ErrorCalculator
