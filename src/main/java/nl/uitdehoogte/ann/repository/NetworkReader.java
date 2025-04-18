@@ -9,14 +9,21 @@ import nl.uitdehoogte.ann.Network;
 
 public class NetworkReader 
 {
-	public static Network read(String fileName) throws IOException, ClassNotFoundException
+	public static Network read(String fileName)
 	{
-		ObjectInputStream reader = new ObjectInputStream(new FileInputStream(fileName));
-		
-		Network network = (Network) reader.readObject();
-		
-		reader.close();
-		
-		return network;
+		try
+		{
+			ObjectInputStream reader = new ObjectInputStream(new FileInputStream(fileName));
+
+			Network network = (Network) reader.readObject();
+
+			reader.close();
+
+			return network;
+		}
+		catch (Exception e)
+		{
+			throw new RuntimeException(e);
+		}
 	}
 }

@@ -2,8 +2,8 @@ package nl.uitdehoogte.ann.activation;
 
 import java.util.Random;
 
-import nl.uitdehoogte.ann.trainer.calculator.error.BogoErrorCalculator;
-import nl.uitdehoogte.ann.trainer.calculator.error.ErrorCalculator;
+import nl.uitdehoogte.ann.activation.error.BogoErrorCalculator;
+import nl.uitdehoogte.ann.activation.error.ErrorCalculator;
 
 public class BogoActivationFunction implements ActivationFunction
 {

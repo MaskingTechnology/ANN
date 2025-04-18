@@ -1,4 +1,4 @@
-package nl.uitdehoogte.ann.trainer.calculator.error;
+package nl.uitdehoogte.ann.activation.error;
 
 import java.util.Random;
 

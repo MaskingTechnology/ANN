@@ -1,7 +1,7 @@
 package nl.uitdehoogte.ann.activation;
 
-import nl.uitdehoogte.ann.trainer.calculator.error.BinairyErrorCalculator;
-import nl.uitdehoogte.ann.trainer.calculator.error.ErrorCalculator;
+import nl.uitdehoogte.ann.activation.error.BinairyErrorCalculator;
+import nl.uitdehoogte.ann.activation.error.ErrorCalculator;
 
 public class BinairyActivationFunction implements ActivationFunction 
 {

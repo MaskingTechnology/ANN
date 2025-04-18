@@ -1,7 +1,7 @@
 package nl.uitdehoogte.ann.activation;
 
-import nl.uitdehoogte.ann.trainer.calculator.error.ErrorCalculator;
-import nl.uitdehoogte.ann.trainer.calculator.error.TangentErrorCalculator;
+import nl.uitdehoogte.ann.activation.error.ErrorCalculator;
+import nl.uitdehoogte.ann.activation.error.TangentErrorCalculator;
 
 public class TangentActivationFunction implements ActivationFunction
 {

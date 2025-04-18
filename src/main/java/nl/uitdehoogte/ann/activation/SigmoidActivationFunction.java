@@ -1,7 +1,7 @@
 package nl.uitdehoogte.ann.activation;
 
-import nl.uitdehoogte.ann.trainer.calculator.error.SigmoidErrorCalculator;
-import nl.uitdehoogte.ann.trainer.calculator.error.ErrorCalculator;
+import nl.uitdehoogte.ann.activation.error.SigmoidErrorCalculator;
+import nl.uitdehoogte.ann.activation.error.ErrorCalculator;
 
 public class SigmoidActivationFunction implements ActivationFunction 
 {

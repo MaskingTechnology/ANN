@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import nl.uitdehoogte.ann.activation.ActivationFunction;
 
-public class Perceptron implements Serializable
+public class Neuron implements Serializable
 {
 	private static final long serialVersionUID = 5931709128178149730L;
 	private ActivationFunction activationFunction;
@@ -14,18 +14,18 @@ public class Perceptron implements Serializable
 	private double lastError;
 	private double lastExpectedOutput;
 	
-	public Perceptron(ActivationFunction activationFunction, int inputCount) 
+	public Neuron(ActivationFunction activationFunction, int inputCount)
 	{
 		this.activationFunction = activationFunction;
 		this.inputCount = inputCount;
 	}
 
-	public double getOutput(double[] input) throws PerceptronException 
+	public double getOutput(double[] input) throws NeuronException
 	{
-		// First weight is bias for this perceptron, input not provided by Network Layer
+		// First weight is bias for this neuron, input not provided by Network Layer
 		if(input.length != inputCount)
 		{
-			throw new PerceptronException("Invalid number of input values");
+			throw new NeuronException("Invalid number of input values");
 		}
 		
 		double transferInput = sum(input);
@@ -35,11 +35,11 @@ public class Perceptron implements Serializable
 		return lastOutput;
 	}
 	
-	public void setWeights(double[] weights) throws PerceptronException 
+	public void setWeights(double[] weights) throws NeuronException
 	{
 		if(weights.length != inputCount + 1)
 		{
-			throw new PerceptronException("Invalid weight count");
+			throw new NeuronException("Invalid weight count");
 		}
 		
 		this.weights = weights;

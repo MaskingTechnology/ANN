@@ -1,4 +1,4 @@
-package nl.uitdehoogte.ann.trainer.calculator.error;
+package nl.uitdehoogte.ann.activation.error;
 
 public class BinairyErrorCalculator implements ErrorCalculator
 {	

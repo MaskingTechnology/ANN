@@ -3,7 +3,6 @@ package nl.uitdehoogte.ann.trainer;
 import nl.uitdehoogte.ann.Layer;
 import nl.uitdehoogte.ann.Network;
 import nl.uitdehoogte.ann.data.Sample;
-import nl.uitdehoogte.ann.trainer.calculator.error.ErrorCalculator;
 
 public class SampleSigmoidNetworkTrainer extends NetworkTrainer
 {

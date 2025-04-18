@@ -12,7 +12,7 @@ public class Network implements Serializable
 		this.layers = layers;
 	}
 	
-	private double[] getInputLayerOutput(double[] input) throws PerceptronException
+	private double[] getInputLayerOutput(double[] input) throws NeuronException
 	{
 		double[] output = new double[input.length];
 
@@ -24,7 +24,7 @@ public class Network implements Serializable
 		return output; 
 	}
 	
-	public double[] getOutput(double[] input) throws PerceptronException
+	public double[] getOutput(double[] input) throws NeuronException
 	{
 		double[] output = getInputLayerOutput(input);
 		

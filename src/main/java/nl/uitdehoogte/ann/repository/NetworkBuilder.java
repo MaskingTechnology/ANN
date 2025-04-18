@@ -4,55 +4,52 @@ import java.util.Random;
 
 import nl.uitdehoogte.ann.Layer;
 import nl.uitdehoogte.ann.Network;
-import nl.uitdehoogte.ann.Perceptron;
-import nl.uitdehoogte.ann.PerceptronException;
+import nl.uitdehoogte.ann.Neuron;
+import nl.uitdehoogte.ann.NeuronException;
 import nl.uitdehoogte.ann.activation.ActivationFunction;
 import nl.uitdehoogte.ann.activation.LinearActivationFunction;
-import nl.uitdehoogte.ann.trainer.calculator.error.BinairyErrorCalculator;
-import nl.uitdehoogte.ann.trainer.calculator.error.BogoErrorCalculator;
-import nl.uitdehoogte.ann.trainer.calculator.error.SigmoidErrorCalculator;
 
 public class NetworkBuilder 
 {
-	public static Network build(int[] perceptrons, ActivationFunction activationFunction) throws PerceptronException
+	public static Network build(int[] neurons, ActivationFunction activationFunction) throws NeuronException
 	{
-		Layer[] layers = new Layer[perceptrons.length];
+		Layer[] layers = new Layer[neurons.length];
 		
-		layers[0] = buildInputLayer(perceptrons[0], new LinearActivationFunction());
+		layers[0] = buildInputLayer(neurons[0], new LinearActivationFunction());
 		
 		int i;
 		
 		for (i = 1; i < layers.length - 1; i++)
 		{
-			layers[i] = buildHiddenLayer(perceptrons[i], perceptrons[i - 1], activationFunction);
+			layers[i] = buildHiddenLayer(neurons[i], neurons[i - 1], activationFunction);
 		}
 		
-		layers[layers.length - 1] = buildOutputLayer(perceptrons[i], perceptrons[i - 1], activationFunction);
+		layers[layers.length - 1] = buildOutputLayer(neurons[i], neurons[i - 1], activationFunction);
 		
 		return new Network(layers);
 	}
 	
-	private static Layer buildInputLayer(int perceptronCount, ActivationFunction activationFunction) throws PerceptronException
+	private static Layer buildInputLayer(int neuronCount, ActivationFunction activationFunction) throws NeuronException
 	{
 		double[] weights = new double[] {0.0, 1.0};
 		
-		Perceptron[] perceptrons = createPerceptrons(perceptronCount, activationFunction, weights);
+		Neuron[] neurons = createNeurons(neuronCount, activationFunction, weights);
 		
-		return new Layer(perceptrons, activationFunction.getErrorCalculator());
+		return new Layer(neurons, activationFunction.getErrorCalculator());
 	}
 	
-	private static Layer buildHiddenLayer(int perceptronCount, int inputCount, ActivationFunction activationFunction) throws PerceptronException
+	private static Layer buildHiddenLayer(int neuronCount, int inputCount, ActivationFunction activationFunction) throws NeuronException
 	{		
-		Perceptron[] perceptrons = createPerceptrons(perceptronCount, inputCount, activationFunction);
+		Neuron[] neurons = createNeurons(neuronCount, inputCount, activationFunction);
 		
-		return new Layer(perceptrons, activationFunction.getErrorCalculator());
+		return new Layer(neurons, activationFunction.getErrorCalculator());
 	}
 	
-	private static Layer buildOutputLayer(int perceptronCount, int inputCount, ActivationFunction activationFunction) throws PerceptronException
+	private static Layer buildOutputLayer(int neuronCount, int inputCount, ActivationFunction activationFunction) throws NeuronException
 	{		
-		Perceptron[] perceptrons = createPerceptrons(perceptronCount, inputCount, activationFunction);
+		Neuron[] neurons = createNeurons(neuronCount, inputCount, activationFunction);
 		
-		return new Layer(perceptrons, activationFunction.getErrorCalculator());
+		return new Layer(neurons, activationFunction.getErrorCalculator());
 	}
 	
 	private static double[] generateRandomWeights(int inputCount)
@@ -68,29 +65,29 @@ public class NetworkBuilder
 		return weights;
 	}
 	
-	private static Perceptron[] createPerceptrons(int perceptronCount, ActivationFunction activationFunction, double[] weights) throws PerceptronException 
+	private static Neuron[] createNeurons(int neuronCount, ActivationFunction activationFunction, double[] weights) throws NeuronException
 	{
-		Perceptron[] perceptrons = new Perceptron[perceptronCount];
+		Neuron[] neurons = new Neuron[neuronCount];
 		
-		for (int i = 0; i < perceptronCount; i++) 
+		for (int i = 0; i < neuronCount; i++) 
 		{
-			perceptrons[i] = new Perceptron(activationFunction, weights.length - 1);
-			perceptrons[i].setWeights(weights);
+			neurons[i] = new Neuron(activationFunction, weights.length - 1);
+			neurons[i].setWeights(weights);
 		}
 		
-		return perceptrons;
+		return neurons;
 	}
 	
-	private static Perceptron[] createPerceptrons(int perceptronCount, int inputCount, ActivationFunction activationFunction) throws PerceptronException 
+	private static Neuron[] createNeurons(int neuronCount, int inputCount, ActivationFunction activationFunction) throws NeuronException
 	{
-		Perceptron[] perceptrons = new Perceptron[perceptronCount];
+		Neuron[] neurons = new Neuron[neuronCount];
 		
-		for (int i = 0; i < perceptronCount; i++) 
+		for (int i = 0; i < neuronCount; i++) 
 		{
-			perceptrons[i] = new Perceptron(activationFunction, inputCount);
-			perceptrons[i].setWeights(generateRandomWeights(inputCount + 1));
+			neurons[i] = new Neuron(activationFunction, inputCount);
+			neurons[i].setWeights(generateRandomWeights(inputCount + 1));
 		}
 		
-		return perceptrons;
+		return neurons;
 	}
 }

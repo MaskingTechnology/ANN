@@ -1,11 +1,8 @@
 package nl.uitdehoogte.ann;
 
-import java.io.IOException;
-
 import nl.uitdehoogte.ann.activation.*;
 import nl.uitdehoogte.ann.data.IdxFileReader;
 import nl.uitdehoogte.ann.data.IdxReader;
-import nl.uitdehoogte.ann.data.RandomIdxReader;
 import nl.uitdehoogte.ann.data.Sample;
 import nl.uitdehoogte.ann.repository.NetworkBuilder;
 import nl.uitdehoogte.ann.repository.NetworkReader;
@@ -16,47 +13,68 @@ import nl.uitdehoogte.ann.trainer.NumberNetworkTrainer;
 public class Main
 {
     final static ActivationFunction SIGMOID = new SigmoidActivationFunction();
-    final static ActivationFunction BINARY = new BinairyActivationFunction();
-    final static ActivationFunction TANGENT = new TangentActivationFunction();
-    final static ActivationFunction BOGO = new BogoActivationFunction();
+
+    final static String BASE_MODEL_FILE = "data/output/784_96_10_sigmoid.dat";
+    final static String OUTPUT_MODEL_FILE = "data/output/784_96_10_sigmoid_1r.dat";
 
     public static void main(String[] args)
     {
-        int iterations = 60000;
+//        createNetwork(new int[]{784, 96, 10}, SIGMOID, BASE_MODEL_FILE);
 
-        trainAndTest(new int[]{784, 96, 10}, SIGMOID, iterations, "data/output/784_96_10_sigmoid_60000.dat");
+        Network network = NetworkReader.read(BASE_MODEL_FILE);
+
+        trainAndTestNetwork(network, 1, 0.39);
+
+        NetworkWriter.write(network, OUTPUT_MODEL_FILE);
     }
 
-    private static void trainAndTest(int[] perceptrons, ActivationFunction activationFunction, int iterations, String modelFilename)
+    private static void trainAndTestNetwork(Network network, int rounds, double learningRate)
     {
-        createAndTrainNetwork(perceptrons, activationFunction, iterations, modelFilename);
+        trainNetwork(network, rounds, learningRate);
 
-        double successPercentage = readAndExecuteNetwork(modelFilename);
+        double successPercentage = testNetwork(network);
 
-        System.out.println(modelFilename + " - success: " + successPercentage + "%");
+        System.out.println("Success: " + successPercentage + "%");
     }
 
-    private static void createAndTrainNetwork(int[] perceptrons, ActivationFunction activationFunction, int iterations, String outputFileName)
+    private static void createNetwork(int[] neurons, ActivationFunction activationFunction, String modelFilename)
     {
         try
         {
-            Network network = NetworkBuilder.build(perceptrons, activationFunction);
+            Network network = NetworkBuilder.build(neurons, activationFunction);
 
-            IdxReader fileReader = new IdxFileReader("data/input/train-labels.idx1-ubyte",
+            NetworkWriter.write(network, modelFilename);
+        }
+        catch(Exception e)
+        {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static void trainNetwork(Network network, int rounds, double learningRate)
+    {
+        try
+        {
+            IdxReader reader = new IdxFileReader("data/input/train-labels.idx1-ubyte",
                     "data/input/train-images.idx3-ubyte");
 
-            IdxReader randomReader = new RandomIdxReader(fileReader);
-            randomReader.read();
+            reader.read();
 
             NetworkTrainer networkTrainer = new NumberNetworkTrainer(network);
-            networkTrainer.setLearningRate(0.39);
 
-            while(--iterations > 0)
+            for(int round = 0; round < rounds; round++)
             {
-                networkTrainer.train(randomReader.getNextSample());
-            }
+                networkTrainer.setLearningRate(learningRate);
 
-            NetworkWriter.write(network, outputFileName);
+                int iterations = reader.getAllSamples().length;
+
+                while (--iterations > 0)
+                {
+                    networkTrainer.train(reader.getNextSample());
+                }
+
+                learningRate *= 0.5;
+            }
         }
         catch(Exception pe)
         {
@@ -64,7 +82,7 @@ public class Main
         }
     }
 
-    private static double readAndExecuteNetwork(String inputFileName)
+    private static double testNetwork(Network network)
     {
         int[] correctValues   = new int[10],
                 incorrectValues = new int[10];
@@ -73,8 +91,6 @@ public class Main
 
         try
         {
-            Network network = NetworkReader.read(inputFileName);
-
             IdxReader fileReader = new IdxFileReader("data/input/t10k-labels.idx1-ubyte",
                     "data/input/t10k-images.idx3-ubyte");
 

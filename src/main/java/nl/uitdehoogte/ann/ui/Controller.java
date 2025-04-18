@@ -5,7 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import nl.uitdehoogte.ann.Network;
-import nl.uitdehoogte.ann.PerceptronException;
+import nl.uitdehoogte.ann.NeuronException;
 import nl.uitdehoogte.ann.data.IdxReader;
 import nl.uitdehoogte.ann.data.IdxFileReader;
 import nl.uitdehoogte.ann.data.RandomIdxReader;
@@ -27,7 +27,7 @@ public class Controller implements ActionListener
 			window.getExecuteButton().addActionListener(this);
 			window.getReadButton().addActionListener(this);
 		
-			network = NetworkReader.read("data/output/784_96_10_sigmoid_60000_75p.dat");
+			network = NetworkReader.read("data/output/784_96_10_sigmoid_1r_83p.dat");
 			
 			reader = new RandomIdxReader(new IdxFileReader("data/input/t10k-labels.idx1-ubyte",
                     									   "data/input/t10k-images.idx3-ubyte"));
@@ -136,7 +136,7 @@ public class Controller implements ActionListener
 		return result;
 	}
 	
-	private double[] runSample(Sample sample) throws PerceptronException
+	private double[] runSample(Sample sample) throws NeuronException
 	{
 		return network.getOutput(sample.getNormalizedDoubleData());
 	}

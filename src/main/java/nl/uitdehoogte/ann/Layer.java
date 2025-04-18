@@ -1,40 +1,40 @@
 package nl.uitdehoogte.ann;
 
 import java.io.Serializable;
-import nl.uitdehoogte.ann.trainer.calculator.error.ErrorCalculator;
+import nl.uitdehoogte.ann.activation.error.ErrorCalculator;
 
 public class Layer implements Serializable
 {
 	private static final long serialVersionUID = 8508449559696724813L;
-	private Perceptron[] perceptrons;
+	private Neuron[] neurons;
 	private ErrorCalculator errorCalculator;
 	
-	public Layer(Perceptron[] perceptrons, ErrorCalculator errorCalculator) 
+	public Layer(Neuron[] neurons, ErrorCalculator errorCalculator)
 	{
-		this.perceptrons = perceptrons;
+		this.neurons = neurons;
 		this.errorCalculator = errorCalculator;
 	}
 	
-	public double[] getOutput(double[] input) throws PerceptronException
+	public double[] getOutput(double[] input) throws NeuronException
 	{
-		double[] output = new double[perceptrons.length];
+		double[] output = new double[neurons.length];
 		
-		for (int i = 0; i < perceptrons.length; i++)
+		for (int i = 0; i < neurons.length; i++)
 		{
-			output[i] = perceptrons[i].getOutput(input);
+			output[i] = neurons[i].getOutput(input);
 		}
 
 		return output;
 	}
 
-	public double getOutput(double[] input, int index) throws PerceptronException
+	public double getOutput(double[] input, int index) throws NeuronException
 	{
-		return perceptrons[index].getOutput(input);
+		return neurons[index].getOutput(input);
 	}
 	
-	public Perceptron[] getPerceptrons()
+	public Neuron[] getNeurons()
 	{
-		return this.perceptrons;
+		return this.neurons;
 	}
 	
 	public ErrorCalculator getErrorCalculator()
