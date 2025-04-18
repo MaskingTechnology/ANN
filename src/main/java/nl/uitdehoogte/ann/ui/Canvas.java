@@ -41,7 +41,7 @@ public class Canvas extends JPanel implements MouseListener, MouseMotionListener
 		if(e.getButton() == MouseEvent.BUTTON1)
 		{
 			drawing = true;
-			//clearDrawing();
+
 			setPixel(calculatePoint(e));
 		}
 		else

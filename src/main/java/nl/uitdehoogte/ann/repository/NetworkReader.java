@@ -9,7 +9,7 @@ import nl.uitdehoogte.ann.Network;
 
 public class NetworkReader 
 {
-	public static Network read(String fileName) throws FileNotFoundException, IOException, ClassNotFoundException
+	public static Network read(String fileName) throws IOException, ClassNotFoundException
 	{
 		ObjectInputStream reader = new ObjectInputStream(new FileInputStream(fileName));
 		

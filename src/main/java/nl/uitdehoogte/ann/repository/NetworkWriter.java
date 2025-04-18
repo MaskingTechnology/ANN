@@ -9,7 +9,7 @@ import nl.uitdehoogte.ann.Network;
 
 public class NetworkWriter 
 {
-	public static void write(Network network, String fileName) throws FileNotFoundException, IOException
+	public static void write(Network network, String fileName) throws IOException
 	{
 		ObjectOutputStream writer = new ObjectOutputStream(new FileOutputStream(fileName));
 		

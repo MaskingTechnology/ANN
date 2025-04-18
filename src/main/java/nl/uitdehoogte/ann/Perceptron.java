@@ -2,14 +2,10 @@ package nl.uitdehoogte.ann;
 
 import java.io.Serializable;
 
-import org.apache.log4j.Logger;
-
 import nl.uitdehoogte.ann.activation.ActivationFunction;
 
 public class Perceptron implements Serializable
 {
-	//private static Logger logger = Logger.getLogger(Perceptron.class);
-
 	private static final long serialVersionUID = 5931709128178149730L;
 	private ActivationFunction activationFunction;
 	private int inputCount;
@@ -23,13 +19,7 @@ public class Perceptron implements Serializable
 		this.activationFunction = activationFunction;
 		this.inputCount = inputCount;
 	}
-	
-	public Perceptron(ActivationFunction activationFunction, int inputCount, double[] weights) throws PerceptronException
-	{
-		this(activationFunction, inputCount);
-		setWeights(weights);
-	}
-	
+
 	public double getOutput(double[] input) throws PerceptronException 
 	{
 		// First weight is bias for this perceptron, input not provided by Network Layer

@@ -2,7 +2,6 @@ package nl.uitdehoogte.ann;
 
 import java.io.Serializable;
 
-
 public class Network implements Serializable
 {
 	private static final long serialVersionUID = 2673317010935875034L;

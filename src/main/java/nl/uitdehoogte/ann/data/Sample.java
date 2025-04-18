@@ -24,12 +24,7 @@ public class Sample
 	{
 		return this.number;
 	}
-	
-	public void setNumber(byte number)
-	{
-		this.number = number;
-	}
-	
+
 	public byte[] getData() 
 	{
 		return this.data;
@@ -39,21 +34,7 @@ public class Sample
 	{
 		this.data = data;
 	}
-	
-	public double[] getDoubleData()
-	{
-		double[] result = new double[this.data.length];
-		int temp;
-		
-		for (int i = 0; i < result.length; i++)
-		{
-			temp = (int)data[i] & 0x000000FF;
-			result[i] = (double)temp;
-		}
-		
-		return result;
-	}
-	
+
 	public double[] getNormalizedDoubleData()
 	{
 		double[] result = new double[this.data.length];
@@ -64,7 +45,6 @@ public class Sample
 			temp = (int)data[i] & 0x000000FF;
 			
 			result[i] = (double)temp / 0xFF;
-			//result[i] = temp > 0 ? 1.0: 0.0;
 		}
 		
 		return result;	
@@ -73,10 +53,5 @@ public class Sample
 	public Dimension getDimension() 
 	{
 		return this.dimension;
-	}
-	
-	public void setDimension(Dimension dimension)
-	{
-		this.dimension = dimension;
 	}
 }

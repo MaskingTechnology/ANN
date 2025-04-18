@@ -3,7 +3,6 @@ package nl.uitdehoogte.ann;
 import java.io.Serializable;
 import nl.uitdehoogte.ann.trainer.calculator.error.ErrorCalculator;
 
-
 public class Layer implements Serializable
 {
 	private static final long serialVersionUID = 8508449559696724813L;

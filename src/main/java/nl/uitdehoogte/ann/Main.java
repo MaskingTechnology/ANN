@@ -13,18 +13,9 @@ import nl.uitdehoogte.ann.repository.NetworkReader;
 import nl.uitdehoogte.ann.repository.NetworkWriter;
 import nl.uitdehoogte.ann.trainer.NetworkTrainer;
 import nl.uitdehoogte.ann.trainer.NumberNetworkTrainer;
-import nl.uitdehoogte.ann.trainer.calculator.error.BinairyErrorCalculator;
-import nl.uitdehoogte.ann.trainer.calculator.error.BogoErrorCalculator;
-import nl.uitdehoogte.ann.trainer.calculator.error.ErrorCalculator;
-import nl.uitdehoogte.ann.trainer.calculator.error.SigmoidErrorCalculator;
-import nl.uitdehoogte.ann.trainer.calculator.error.TangentErrorCalculator;
 
 public class Main
 {
-    //Momentum ??
-    //http://en.wikibooks.org/wiki/Artificial_Neural_Networks/Neural_Network_Basics
-    //http://neuralnetworksanddeeplearning.com/chap1.html
-
     public static void main(String[] args)
     {
         int maxCorrect = 0,
@@ -56,8 +47,7 @@ public class Main
         int[] correctValues   = new int[10],
                 incorrectValues = new int[10];
 
-        int correct = 0,
-                incorrect = 0;
+        int correct = 0;
 
         try
         {
@@ -78,34 +68,7 @@ public class Main
                 {
                     correct++;
                 }
-                else
-                {
-                    incorrect++;
-                }
-
-                //printOutput(output);
             }
-
-			/*
-			System.out.println();
-			System.out.println("Samples  : " + samples.length);
-			System.out.println("Correct  : " + correct);
-			System.out.println("Incorrect: " + incorrect);
-			System.out.println();
-
-			System.out.println("Correct numbers:");
-			for(int i = 0; i < correctValues.length; i++)
-			{
-				System.out.println(i + ": " + correctValues[i]);
-			}
-
-			System.out.println();
-			System.out.println("Incorrect numbers:");
-			for(int i = 0; i < correctValues.length; i++)
-			{
-				System.out.println(i + ": " + incorrectValues[i]);
-			}
-			*/
         }
         catch(Exception e)
         {
@@ -131,7 +94,6 @@ public class Main
                 index = i;
             }
         }
-        //System.out.println("max: " + max + " index: " + index + " number: " + number);
 
         returnValue = index == intNumber;
 
@@ -185,42 +147,6 @@ public class Main
         catch(Exception pe)
         {
             pe.printStackTrace();
-        }
-    }
-
-    private static double[] generateRandomInput(int inputCount)
-    {
-        double[] input = new double[inputCount];
-        Random random = new Random();
-
-        for (int i = 0; i < input.length; i++)
-        {
-            input[i] = random.nextGaussian();
-        }
-
-        return input;
-    }
-
-    private static void printNetwork(Network network)
-    {
-        Layer[] layers = network.getLayers();
-
-        for (int i = 0; i < layers.length; i++)
-        {
-            Perceptron[] perceptrons = layers[i].getPerceptrons();
-
-            for (int j = 0; j < perceptrons.length; j++)
-            {
-                printOutput(perceptrons[j].getWeights());
-            }
-        }
-    }
-
-    private static void printOutput(double[] output)
-    {
-        for (int i = 0; i < output.length; i++)
-        {
-            System.out.printf("%d: %f\r\n", i, output[i]);
         }
     }
 

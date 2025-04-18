@@ -17,15 +17,7 @@ public abstract class NetworkTrainer
 		this.network = network;
 		this.learningRate = 0.35;
 	}
-	
-	public void train(Sample[] samples) throws PerceptronException
-	{
-		for (int i = 0; i < samples.length; i++)
-		{
-			train(samples[i]);
-		}
-	}
-	
+
 	public void setLearningRate(double learningRate)
 	{
 		this.learningRate = learningRate;
