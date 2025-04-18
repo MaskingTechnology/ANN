@@ -1,7 +1,6 @@
 package nl.uitdehoogte.ann;
 
 import java.io.IOException;
-import java.util.Random;
 
 import nl.uitdehoogte.ann.activation.*;
 import nl.uitdehoogte.ann.data.IdxFileReader;
@@ -16,48 +15,76 @@ import nl.uitdehoogte.ann.trainer.NumberNetworkTrainer;
 
 public class Main
 {
+    final static ActivationFunction SIGMOID = new SigmoidActivationFunction();
+    final static ActivationFunction BINARY = new BinairyActivationFunction();
+    final static ActivationFunction TANGENT = new TangentActivationFunction();
+    final static ActivationFunction BOGO = new BogoActivationFunction();
+
     public static void main(String[] args)
     {
-        int maxCorrect = 0,
-                correct = 0,
-                dataIndex = 20;
+        int iterations = 60000;
 
-        for(int i = 0; i < 10000; i++)
-        {
-            createAndTrainNetwork("data/test" + dataIndex + ".dat");
-            correct = readAndExecuteNetwork("data/test" + dataIndex + ".dat");
-
-            System.out.print("Done\t" + (i + 1));
-
-            if(correct > maxCorrect)
-            {
-                maxCorrect = correct;
-                dataIndex++;
-                System.out.print("\tCorrect: " + correct + " ");
-            }
-
-            System.out.println();
-        }
-
-        System.out.println(maxCorrect);
+        trainAndTest(new int[]{784, 96, 10}, SIGMOID, iterations, "data/output/784_96_10_sigmoid_60000.dat");
     }
 
-    private static int readAndExecuteNetwork(String inputFileName)
+    private static void trainAndTest(int[] perceptrons, ActivationFunction activationFunction, int iterations, String modelFilename)
+    {
+        createAndTrainNetwork(perceptrons, activationFunction, iterations, modelFilename);
+
+        double successPercentage = readAndExecuteNetwork(modelFilename);
+
+        System.out.println(modelFilename + " - success: " + successPercentage + "%");
+    }
+
+    private static void createAndTrainNetwork(int[] perceptrons, ActivationFunction activationFunction, int iterations, String outputFileName)
+    {
+        try
+        {
+            Network network = NetworkBuilder.build(perceptrons, activationFunction);
+
+            IdxReader fileReader = new IdxFileReader("data/input/train-labels.idx1-ubyte",
+                    "data/input/train-images.idx3-ubyte");
+
+            IdxReader randomReader = new RandomIdxReader(fileReader);
+            randomReader.read();
+
+            NetworkTrainer networkTrainer = new NumberNetworkTrainer(network);
+            networkTrainer.setLearningRate(0.39);
+
+            while(--iterations > 0)
+            {
+                networkTrainer.train(randomReader.getNextSample());
+            }
+
+            NetworkWriter.write(network, outputFileName);
+        }
+        catch(Exception pe)
+        {
+            pe.printStackTrace();
+        }
+    }
+
+    private static double readAndExecuteNetwork(String inputFileName)
     {
         int[] correctValues   = new int[10],
                 incorrectValues = new int[10];
 
-        int correct = 0;
+        double successRatio = 0.0;
 
         try
         {
             Network network = NetworkReader.read(inputFileName);
 
-            Sample[] samples = readIdxFiles("data/t10k-labels.idx1-ubyte",
-                    "data/t10k-images.idx3-ubyte");
+            IdxReader fileReader = new IdxFileReader("data/input/t10k-labels.idx1-ubyte",
+                    "data/input/t10k-images.idx3-ubyte");
+
+            fileReader.read();
+
+            Sample[] samples = fileReader.getAllSamples();
 
             double[] input,
                     output;
+            int correct = 0;
 
             for(int i = 0; i < samples.length; i++)
             {
@@ -69,13 +96,15 @@ public class Main
                     correct++;
                 }
             }
+
+            successRatio = (double)correct / (double)samples.length;
         }
         catch(Exception e)
         {
             e.printStackTrace();
         }
 
-        return correct;
+        return successRatio * 100;
     }
 
     private static boolean checkOutput(byte number, double[] output, int[] correctValues, int[] incorrectValues)
@@ -107,80 +136,5 @@ public class Main
         }
 
         return returnValue;
-    }
-
-    private static void createAndTrainNetwork(String outputFileName)
-    {
-        int[] perceptrons = new int[] {784, 96, 10};
-        int iterations = 350001;
-
-        //ActivationFunction activationFunction = new BinairyActivationFunction();
-        ActivationFunction activationFunction = new SigmoidActivationFunction();
-        //ActivationFunction activationFunction = new TangentActivationFunction();
-        //ActivationFunction activationFunction = new BogoActivationFunction();
-
-        try
-        {
-            Network network = NetworkBuilder.build(perceptrons, activationFunction);
-
-            IdxReader reader = createIdxReader("data/train-labels.idx1-ubyte",
-                    "data/train-images.idx3-ubyte");
-
-            reader = new RandomIdxReader(reader);
-
-            NetworkTrainer networkTrainer = new NumberNetworkTrainer(network);
-            networkTrainer.setLearningRate(0.39);
-
-            //long start = System.currentTimeMillis();
-
-            while(--iterations > 0)
-            {
-                networkTrainer.train(reader.getNextSample());
-            }
-
-            //long end = System.currentTimeMillis();
-
-            //System.out.println(end - start);
-
-            NetworkWriter.write(network, outputFileName);
-        }
-        catch(Exception pe)
-        {
-            pe.printStackTrace();
-        }
-    }
-
-    private static Sample[] readIdxFiles(String Idx1FileName, String Idx3FileName)
-    {
-        IdxFileReader reader = new IdxFileReader(Idx1FileName, Idx3FileName);
-
-        try
-        {
-            reader.read();
-            return reader.getAllSamples();
-        }
-        catch (IOException e)
-        {
-            System.err.println(e.getMessage());
-        }
-
-        return null;
-    }
-
-    private static IdxReader createIdxReader(String Idx1FileName, String Idx3FileName)
-    {
-        IdxReader reader = new IdxFileReader(Idx1FileName, Idx3FileName);
-
-        try
-        {
-            reader.read();
-            return reader;
-        }
-        catch (IOException e)
-        {
-            System.err.println(e.getMessage());
-        }
-
-        return null;
     }
 }

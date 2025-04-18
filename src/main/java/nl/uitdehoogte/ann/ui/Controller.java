@@ -27,7 +27,7 @@ public class Controller implements ActionListener
 			window.getExecuteButton().addActionListener(this);
 			window.getReadButton().addActionListener(this);
 		
-			network = NetworkReader.read("data/output/test8.dat");
+			network = NetworkReader.read("data/output/784_96_10_sigmoid_60000_75p.dat");
 			
 			reader = new RandomIdxReader(new IdxFileReader("data/input/t10k-labels.idx1-ubyte",
                     									   "data/input/t10k-images.idx3-ubyte"));

@@ -1,35 +1,44 @@
 package nl.uitdehoogte.ann.data;
 
 import java.io.IOException;
-import java.util.Random;
+import java.util.*;
 
 public class RandomIdxReader implements IdxReader
 {
 	private IdxReader reader;
-	private Random random;
-	
+	private List<Integer> indexes = new ArrayList<Integer>();
+
+	private Sample[] samples;
+	private int currentIndex = 0;
+
 	public RandomIdxReader(IdxReader reader)
 	{
 		this.reader = reader;
-		random = new Random();
 	}
 	
 	public void read() throws IOException
 	{
 		reader.read();
+
+		samples = reader.getAllSamples();
+
+		for (int index = 0; index < samples.length; index++)
+		{
+			indexes.add(index);
+		}
+
+		Collections.shuffle(indexes);
 	}
 	
 	public Sample getNextSample()
 	{
-		Sample[] samples = getAllSamples();
-		
-		int index = random.nextInt(samples.length);
-		
+		int index = currentIndex++ % samples.length;
+
 		return samples[index];
 	}
-	
+
 	public Sample[] getAllSamples()
 	{
-		return reader.getAllSamples();
+		return samples;
 	}
 }
